@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+    <meta charset="UTF-8">
+    <title>{{ forum.name }} - NTTV</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-1119387653458763"
+     crossorigin="anonymous"></script>
+    <link rel="icon" href="{{ url_for('static', filename='favicon.ico') }}" type="image/x-icon">
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+
+<style>
+main {
+    display: flex;
+    flex-direction: row;
+    gap: 20px;
+    flex-wrap: wrap;
+}
+
+.left-column {
+    flex: 1.5;
+    min-width: 300px;
+}
+
+.right-column {
+    flex: 1.2;
+    min-width: 300px;
+    max-width: 450px;
+}
+
+.chat-box {
+    border-left: 2px solid #ccc;
+    padding-left: 15px;
+}
+
+.chat-box .messages li {
+    margin-bottom: 15px;
+    padding-bottom: 10px;
+    border-bottom: 1px solid #eee;
+}
+
+.stream-player-wrapper {
+    margin-bottom: 20px;
+}
+
+.stream-player {
+    position: relative;
+    width: 100%;
+    padding-top: 56.25%;
+    margin-top: 20px;
+    display: none;
+}
+
+.stream-player.active {
+    display: block;
+}
+
+.stream-player iframe {
+    position: absolute;
+    top: 0; left: 0;
+    width: 100%;
+    height: 100%;
+    border: none;
+}
+
+@media (max-width: 768px) {
+    main {
+        flex-direction: column;
+        padding: 10px;
+    }
+
+    .left-column,
+    .right-column {
+        max-width: 100%;
+        min-width: 100%;
+        flex: 1 1 100%;
+    }
+
+    .chat-box form {
+        flex-direction: column;
+    }
+
+    .chat-box input[type="text"] {
+        width: 100%;
+        margin-bottom: 10px;
+    }
+
+    .stream-player-wrapper select {
+        width: 100%;
+        margin-top: 10px;
+    }
+}
+</style>
+
+</head>
+<body>
+    <header>
+        <h1>NTTV</h1>
+        <p class="subtitle_s">NextTheme.TV – {{ forum.name }}</p>
+        <nav>
+            <a href="{{ url_for('forums') }}">Назад до тем</a>
+        </nav>
+    </header>
+
+<main>
+    <div class="left-column">
+        {% if forum.is_live %}
+        <section class="live-container">
+            <div class="stream-player-wrapper">
+                <h2>🔴 Етер</h2>
+                <label for="playerSelect">Оберіть плеєр:</label>
+                <select id="playerSelect" onchange="switchPlayer()">
+                    {% if forum.youtube_stream_url %}<option value="youtube">YouTube</option>{% endif %}
+                    {% if forum.kick_stream_url %}<option value="kick">Kick</option>{% endif %}
+                </select>
+
+                {% if forum.youtube_stream_url %}
+                <div id="youtubePlayer" class="stream-player active">
+                    <iframe src="{{ forum.youtube_stream_url | replace('watch?v=', 'embed/') }}?autoplay=1"
+                            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                            allowfullscreen></iframe>
+                </div>
+                {% endif %}
+
+                {% if forum.kick_stream_url %}
+                <div id="kickPlayer" class="stream-player">
+                    <iframe src="https://player.kick.com/embed/{{ forum.kick_stream_url.split('/')[-1] }}?autoplay=true"
+                    allowfullscreen></iframe>
+
+                </div>
+                {% endif %}
+            </div>
+        </section>
+        {% endif %}
+
+        <section class="post">
+            <div class="post-content">
+                <h2>Опис теми</h2>
+                <div>{{ forum.description | safe }}</div>
+            </div>
+        </section>
+    </div>
+
+    <div class="right-column">
+        <section class="post chat-box">
+            <h3>Чат</h3>
+            <form method="POST">
+                <input type="text" id="message" name="message" required><br>
+                <button type="submit">Надіслати</button>
+            </form>
+        </section>
+
+        <section class="post chat-box">
+            <ul id="messages-list" class="messages">
+            {% for msg in messages |reverse %}
+            <li class="message">
+                <a href="{{ url_for('view_user_profile', uid=msg.author_id) }}">{{ msg.username }}</a>
+                    <p>{{ msg.text }}</p>
+             <small class="author">
+                {% if session['user_id'] == forum['author_id'] or 'mod' in users[session['user_id']].get('badges', []) %}
+                    від: ({{ msg.author_id }}) / о ({{ msg.timestamp }})
+                    <form method="POST" style="display:inline;">
+                        <input type="hidden" name="action" value="delete_message">
+                        <input type="hidden" name="message_index" value="{{ loop.index0 }}">
+                        <button type="submit" onclick="return confirm('Видалити це повідомлення?')">❌</button>
+                    </form>
+                {% else %}
+                    о ({{ msg.timestamp }})
+                {% endif %}
+        </small>
+    </li>
+    {% endfor %}
+</ul>
+
+        </section>
+    </div>
+</main>
+
+<script>
+function switchPlayer() {
+    const selected = document.getElementById("playerSelect").value;
+    const yt = document.getElementById("youtubePlayer");
+    const kick = document.getElementById("kickPlayer");
+
+    if (yt) yt.classList.remove("active");
+    if (kick) kick.classList.remove("active");
+
+    if (selected === "youtube" && yt) yt.classList.add("active");
+    if (selected === "kick" && kick) kick.classList.add("active");
+}
+</script>
+
+</body>
+</html>

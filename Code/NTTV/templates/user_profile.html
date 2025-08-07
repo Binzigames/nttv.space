@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+    <meta charset="UTF-8">
+    <title>Профіль користувача</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+      <link rel="icon" href="{{ url_for('static', filename='favicon.ico') }}" type="image/x-icon">
+    <style>
+        .profile-container {
+            display: flex;
+            gap: 32px;
+            flex-wrap: wrap;
+        }
+        .left-column, .right-column {
+            flex: 1;
+            min-width: 300px;
+        }
+        .badges {
+            margin-top: 12px;
+            display: flex;
+            flex-wrap: wrap;
+        }
+        .badge {
+            background-color: #a1a1aa;
+            color: white;
+            border-radius: 12px;
+            padding: 6px 16px;
+            margin: 4px;
+            font-size: 14px;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Профіль користувача</h1>
+        <p class="subtitle_s">{{ user.username }}</p>
+    </header>
+
+    <main>
+        <div class="profile-container">
+            <section class="left-column">
+                <section class="card">
+                    <h2>Інформація</h2>
+                    <p><strong>Нікнейм:</strong> {{ user.username }}</p>
+                    {% if user.bio %}
+                        <p><strong>Про себе:</strong></p>
+                        <p>{{ user.bio }}</p>
+                    {% else %}
+                        <p class="subtitle_s">Користувач ще не відкрився нам...</p>
+                    {% endif %}
+                    {% if user.get('d_email') %}
+                    <p><strong>Email:</strong> {{ user['d_email'] }}</p>
+                    {% endif %}
+
+                    <a href="{{ url_for('index') }}">← Назад до головної</a>
+                </section>
+            </section>
+
+            <section class="right-column">
+                <section class="card" style="margin-bottom: 32px;">
+                    <h2>Бейджі</h2>
+                    <div class="badges">
+                        {% if badges %}
+                            {% for badge in badges %}
+                                <div class="badge">{{ badge }}</div>
+                            {% endfor %}
+                        {% else %}
+                            <p class="subtitle_s">Немає бейджів</p>
+                        {% endif %}
+                    </div>
+
+                    <h2>Підписані форуми</h2>
+                    <ul>
+                        {% for fid, forum in subscribed_forums.items() %}
+                            <li>
+                                <a href="{{ url_for('view_forum', forum_id=fid) }}">{{ forum.name }}</a>
+                            </li>
+                        {% else %}
+                            <li class="subtitle_s">Немає підписок</li>
+                        {% endfor %}
+                    </ul>
+                </section>
+            </section>
+        </div>
+    </main>
+</body>
+</html>

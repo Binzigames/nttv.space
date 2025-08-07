@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>NTTV – Підписки</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-1119387653458763"
+     crossorigin="anonymous"></script>
+    <link rel="icon" href="{{ url_for('static', filename='favicon.ico') }}" type="image/x-icon">
+</head>
+<body>
+<header>
+    <h1>NTTV</h1>
+    <p class="subtitle_s">NextTheme.TV – Платформа для тем, творчості та спілкування</p>
+    <nav>
+        <a href="{{ url_for('forums') }}">Теми</a>
+        <a href="{{ url_for('profile') }}">Профіль</a>
+        <a href="{{ url_for('index') }}">Головна</a>
+    </nav>
+</header>
+
+<section class="forum-list">
+    <ul>
+        
+        {% if subs %}
+        
+            {% for forum_id, forum in subs.items() %}
+                <li class="post">
+                    <div class="post-content">
+                        <h3>{{ forum['name'] }}</h3>
+                        <h4>Підписники: {{ get_subscriber_count(forum_id) }}</h4>
+                        <h5>Реп: {{ forum['reputation'] }}</h5>
+                        <p>{{ forum['description'] }}</p>
+                        <div class="author">Автор:
+                            {% set author = users.get(forum['author_id']) %}
+                            {{ author['username'] if author else '???' }}
+                        </div>
+                        <a href="{{ url_for('view_forum', forum_id=forum_id) }}">🔍 Переглянути</a>
+                    </div>
+
+                    {% if show_menu == forum_id %}
+                        <div class="admin-menu">
+                            {% if session['user_id'] == forum['author_id'] or 'admin' in session.get('roles', []) %}
+                                <form action="/forums/delete/{{ forum_id }}" method="POST" onsubmit="return confirm('Ви впевнені, що хочете видалити цей форум?')">
+                                    <button type="submit" style="color: red;">Видалити тему</button>
+                                </form>
+                                <form action="/forums/edit/{{ forum_id }}" method="GET">
+                                    <button type="submit">Редагувати</button>
+                                </form>
+                            {% endif %}
+                        </div>
+                    {% endif %}
+
+                    {% if 'user_id' in session %}
+                        {% if session['user_id'] not in forum['subscribers'] %}
+                            <form action="/forums/subscribe/{{ forum_id }}" method="POST">
+                                <button type="submit">Підписатися</button>
+                            </form>
+                        {% else %}
+                            <form action="/forums/unsubscribe/{{ forum_id }}" method="POST">
+                                <button type="submit">Відписатися</button>
+                            </form>
+                        {% endif %}
+
+                        {% if session['user_id'] == forum['author_id'] %}
+                            <form action="/forums/moderate/{{ forum_id }}" method="GET">
+                                <button type="submit">Керувати</button>
+                            </form>
+                        {% endif %}
+                    {% else %}
+                        <p>Для підписки необхідно <a href="{{ url_for('login') }}">увійти</a>.</p>
+                    {% endif %}
+                </li>
+            {% endfor %}
+        {% else %}
+            <p class="subtitle_s">Ви ще не підписані на жоден форум.</p>
+            <p class="subtitle_s">Саме час це виправити...</p>
+        {% endif %}
+    </ul>
+</section>
+
+
+</body>
+</html

@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>NTTV – профіль</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-1119387653458763"
+     crossorigin="anonymous"></script>
+  <link rel="icon" href="{{ url_for('static', filename='favicon.ico') }}" type="image/x-icon">
+  <style>
+    .badges {
+      margin-top: 20px;
+      display: flex;
+      flex-wrap: wrap;
+    }
+
+    .badge {
+      background-color: #a1a1aa;
+      color: white;
+      border-radius: 12px;
+      padding: 10px 20px;
+      margin: 5px;
+      font-size: 16px;
+      font-weight: bold;
+    }
+
+    .form-group {
+      margin-bottom: 15px;
+    }
+
+    textarea, input[type="email"] {
+      width: 100%;
+      max-width: 500px;
+      padding: 8px;
+      border-radius: 6px;
+      border: 1px solid #ccc;
+      font-size: 16px;
+    }
+
+    button {
+      padding: 10px 20px;
+      background-color: #3b82f6;
+      color: white;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+      font-weight: bold;
+    }
+
+    button:hover {
+      background-color: #2563eb;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>NTTV</h1>
+    <p class="subtitle_s">NextTheme.TV – Платформа для тем, творчості та спілкування</p>
+    <nav>
+      <a href="forums">Теми</a>
+      <a href="profile_subs">Підписки</a>
+      <a href="/">Головна</a>
+    </nav>
+  </header>
+
+  <div>
+    <p>Вся інформація про тебе тут</p>
+  </div>
+
+  <li class="post">
+    <div class="profile-content">
+      <h1>Привіт, {{ user.username }}!</h1>
+      <p class="subtitle_s">(UID {{ user.uid }})</p>
+      <p>Email: {{ user.email }}</p>
+
+      <div class="badges">
+        {% if user.badges %}
+          <h3>Ваші бейджі:</h3>
+          {% for badge in user.badges %}
+            <div class="badge">{{ badge }}</div>
+          {% endfor %}
+        {% else %}
+          <p class="subtitle_s">У вас поки що немає бейджів.</p>
+        {% endif %}
+      </div>
+    </div>
+  </li>
+
+  <li class="post">
+    <h2>Налаштування профілю</h2>
+    <form method="POST" action="{{ url_for('update_user') }}">
+      <div class="form-group">
+        <label for="bio"><strong>Про себе (біо):</strong></label><br>
+        <textarea id="bio" name="bio" rows="4">{{ user.bio }}</textarea>
+      </div>
+      <div class="form-group">
+        <label for="d_gmail"><strong>Публічна пошта:</strong></label><br>
+        <input type="email" id="d_gmail" name="d_gmail" value="{{ user.d_gmail }}">
+      </div>
+
+      <a href="{{ url_for('view_user_profile', uid=session['user_id']) }}">Переглянути мій акаунт</a>
+      <button type="submit">Оновити профіль</button>
+    </form>
+  </li>
+</body>
+</html>

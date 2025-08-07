@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+<link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NTTV - Реєстрація</title>
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-1119387653458763"
+     crossorigin="anonymous"></script>
+    <link rel="icon" href="{{ url_for('static', filename='favicon.ico') }}" type="image/x-icon">
+</head>
+<body>
+    <h2>Реєстрація на NTTV - це початок вашої маленької пригоди 💜</h2>
+    <form action="{{ url_for('register') }}" method="POST">
+        <label for="username">Username:</label>
+        <input type="text" name="username" id="username" required><br><br>
+        <label for="email">Пошта:</label>
+        <input type="email" name="email" id="email" required><br><br>
+        <label for="password">Пароль:</label>
+        <input type="password" name="password" id="password" required><br><br>
+        <button type="submit">Почати пригоду!</button>
+        <a href="login">я вже маю акаунт.</a>
+    </form>
+</body>
+</html>
