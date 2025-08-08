@@ -1,0 +1,306 @@
+.main-layout {
+    display: flex;
+    gap: 2rem;
+    max-width: 1400px;
+    margin: 0 auto;
+    padding: 2rem;
+    box-sizing: border-box;
+    align-items: flex-start;
+    animation: fadeInUp 1s ease-out;
+}
+
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(30px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.sidebar {
+    flex: 0 0 350px;
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+}
+
+.forum-list {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+}
+
+/* Enhanced Card Styles */
+.card {
+    background: linear-gradient(135deg, 
+        rgba(26, 26, 26, 0.95) 0%, 
+        rgba(44, 44, 44, 0.8) 50%, 
+        rgba(26, 26, 26, 0.95) 100%);
+    border: 2px solid var(--concrete-gray);
+    border-radius: 12px;
+    padding: 2rem;
+    position: relative;
+    overflow: hidden;
+    transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    box-shadow: 
+        0 8px 32px rgba(0, 0, 0, 0.4),
+        inset 0 1px 0 rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(10px);
+}
+
+.card::before {
+    content: '';
+    position: absolute;
+    top: -2px;
+    left: -2px;
+    right: -2px;
+    bottom: -2px;
+    background: linear-gradient(45deg, 
+        var(--toxic-purple), 
+        var(--electric-blue), 
+        var(--toxic-green), 
+        var(--underground-orange));
+    background-size: 400% 400%;
+    animation: gradientBorder 6s ease infinite;
+    z-index: -1;
+    opacity: 0;
+    transition: opacity 0.4s ease;
+    border-radius: 12px;
+}
+
+@keyframes gradientBorder {
+    0% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+    100% { background-position: 0% 50%; }
+}
+
+/* Enhanced Typography */
+h2 {
+    font-family: 'Staatliches', cursive;
+    font-size: clamp(1.5rem, 3vw, 2.2rem);
+    color: var(--neon-white);
+    margin-bottom: 1.5rem;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    text-shadow: 
+        2px 2px 0px var(--blood-red),
+        0 0 20px rgba(255, 255, 255, 0.3);
+    position: relative;
+}
+
+@keyframes pulse {
+    0%, 100% { transform: scaleX(1); opacity: 0.8; }
+    50% { transform: scaleX(1.2); opacity: 1; }
+}
+
+.red-title {
+    color: var(--blood-red);
+    text-shadow: 
+        2px 2px 0px var(--toxic-purple),
+        0 0 20px rgba(255, 0, 64, 0.5);
+}
+
+/* Enhanced Form Styles */
+form label {
+    font-weight: 600;
+    color: var(--toxic-purple);
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    font-size: 0.9rem;
+}
+
+form input[type="text"] {
+    background: linear-gradient(135deg, rgba(26, 26, 26, 0.8), rgba(44, 44, 44, 0.6));
+    border: 2px solid var(--concrete-gray);
+    padding: 1rem;
+    border-radius: 8px;
+    color: var(--neon-white);
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.95rem;
+    transition: all 0.3s ease;
+    backdrop-filter: blur(5px);
+}
+
+form input[type="text"]:focus {
+    border-color: var(--toxic-purple);
+    outline: none;
+    box-shadow: 
+        0 0 0 3px rgba(138, 43, 226, 0.3),
+        inset 0 2px 4px rgba(0, 0, 0, 0.2);
+    background: linear-gradient(135deg, rgba(26, 26, 26, 0.95), rgba(44, 44, 44, 0.8));
+}
+
+form button {
+    background-color:  var(--toxic-purple);
+    color: var(--neon-white);
+    border: none;
+    padding: 1rem 1.5rem;
+    font-weight: 700;
+    font-family: 'JetBrains Mono', monospace;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: all 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    font-size: 0.9rem;
+    position: relative;
+    float: left;
+    box-shadow: 0 4px 15px rgba(138, 43, 226, 0.4);
+    margin-left: 20px;
+    margin-bottom: 20px;
+}
+
+form button:hover {
+    box-shadow: 0 8px 25px rgba(138, 43, 226, 0.6);
+}
+
+/* Enhanced Post Styles */
+.post {
+    background: linear-gradient(135deg, #1a1a1a 0%, #2c2c2c 100%);
+    border: 2px solid var(--concrete-gray);
+    border-radius: 12px;
+    position: relative;
+    overflow: hidden;
+    transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    box-shadow: 
+        0 8px 25px rgba(0, 0, 0, 0.3),
+        inset 0 1px 0 rgba(255, 255, 255, 0.05);
+}
+
+.post:nth-child(odd) {
+    animation-delay: 0.1s;
+}
+.post:nth-child(even) {
+    animation-delay: 0.2s;
+}
+
+.post-content {
+    padding: 2rem;
+    position: relative;
+    z-index: 2;
+}
+
+.post-content h3 {
+    font-size: clamp(1.2rem, 2.5vw, 1.6rem);
+    color: var(--neon-white);
+    margin-bottom: 0.8rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    font-family: 'Staatliches', cursive;
+    letter-spacing: 1px;
+}
+
+.live {
+    color: var(--toxic-green);
+    font-weight: 900;
+    text-transform: uppercase;
+    font-size: 0.8rem;
+    background: rgba(0, 255, 65, 0.2);
+    padding: 0.2rem 0.5rem;
+    border-radius: 4px;
+    display: inline-block;
+    animation: livePulse 2s ease-in-out infinite;
+}
+
+@keyframes livePulse {
+    0%, 100% { 
+        box-shadow: 0 0 5px rgba(0, 255, 65, 0.5);
+        transform: scale(1);
+    }
+    50% { 
+        box-shadow: 0 0 15px rgba(0, 255, 65, 0.8);
+        transform: scale(1.05);
+    }
+}
+
+/* Enhanced Votes Section */
+.votes {
+    margin-top: 1rem;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.votes form {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.votes button {
+    background: transparent;
+    border: 2px solid var(--concrete-gray);
+    color: var(--dirty-white);
+    padding: 0.5rem 0.8rem;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    font-size: 1.2rem;
+}
+
+.votes button:hover {
+    border-color: var(--toxic-purple);
+    background: rgba(138, 43, 226, 0.2);
+    transform: scale(1.1);
+}
+
+/* Responsive Design */
+@media (max-width: 1024px) {
+    .main-layout {
+        flex-direction: column;
+        gap: 2rem;
+        padding: 1.5rem;
+    }
+    
+    .sidebar {
+        flex: 1;
+        width: 100%;
+    }
+}
+
+@media (max-width: 768px) {
+    .header-content {
+        flex-direction: column;
+        text-align: center;
+        padding: 1rem;
+    }
+    
+    .brand-section {
+        align-items: center;
+    }
+    
+    nav {
+        justify-content: center;
+        width: 100%;
+    }
+    
+    nav a {
+        flex: 1;
+        text-align: center;
+        min-width: 0;
+        padding: 0.6rem 0.8rem;
+        font-size: 0.8rem;
+    }
+    
+    .post-content {
+        padding: 1.5rem;
+    }
+}
+
+.fix_btn {
+    position: relative;
+    float: none;
+    top: 10px;
+    left: -20px;
+}
+
+/*   
+
+
+form
+
+*/

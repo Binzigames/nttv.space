@@ -256,6 +256,7 @@ def profile():
             is_mod = "mod" in user.get('badges', [])
             return render_template("profile.html", user=user , is_mod= is_mod)
     return redirect(url_for('register'))
+
 @app.route('/user/<uid>')
 def view_user_profile(uid):
     users = load_users()

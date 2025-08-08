@@ -4,25 +4,16 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>NTTV – NEXTTHEMETV</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='global.css') }}">
+  <link rel="stylesheet" href="{{ url_for('static', filename='components/header.css') }}">
+  <link rel="stylesheet" href="{{ url_for('static', filename='components/footer.css') }}">
   <link rel="stylesheet" href="{{ url_for('static', filename='main.css') }}">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&family=Staatliches&family=Permanent+Marker&display=swap" rel="stylesheet">
 </head>
 <body>
-  <header>
-    <div class="header-content">
-      <div class="brand-section">
-        <h1>NTTV</h1>
-        <p class="subtitle_s">NextTheme.TV — Платформа для тем, творчості та спілкування</p>
-      </div>
-      <nav>
-        <a href="forums" class="nav-link">ТЕМИ</a>
-        <a href="profile_subs" class="nav-link">ПІДПИСКИ</a>
-        <a href="profile" class="nav-link">ПРОФІЛЬ</a>
-      </nav>
-    </div>
-  </header>
+  {% include "components/header.jinja" %}
 
   <main class="main-grid">
     <!-- Ліва панель -->
@@ -129,11 +120,7 @@
     </div>
   </main>
 
-  <footer>
-    <div class="footer-content">
-      <p>© 2025 NTTV — Разом творимо стильну реальність</p>
-    </div>
-  </footer>
+  {% include "components/footer.jinja" %}
 </body>
 </html>
 
