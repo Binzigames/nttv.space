@@ -1,3 +1,4 @@
+/* global.css */
 * {
     margin: 0;
     padding: 0;
@@ -67,8 +68,6 @@ body::before {
     pointer-events: none;
     z-index: 1000;
 }
-
-
 
 /* Enhanced Link Styles */
 a {

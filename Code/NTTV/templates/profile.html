@@ -4,104 +4,68 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>NTTV – профіль</title>
-  <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+  <link rel="stylesheet" href="{{ url_for('static', filename='global.css') }}">
+  <link rel="stylesheet" href="{{ url_for('static', filename='components/header.css') }}">
+  <link rel="stylesheet" href="{{ url_for('static', filename='components/footer.css') }}">
+  <link rel="stylesheet" href="{{ url_for('static', filename='profile.css') }}">
   <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-1119387653458763"
      crossorigin="anonymous"></script>
   <link rel="icon" href="{{ url_for('static', filename='favicon.ico') }}" type="image/x-icon">
-  <style>
-    .badges {
-      margin-top: 20px;
-      display: flex;
-      flex-wrap: wrap;
-    }
-
-    .badge {
-      background-color: #a1a1aa;
-      color: white;
-      border-radius: 12px;
-      padding: 10px 20px;
-      margin: 5px;
-      font-size: 16px;
-      font-weight: bold;
-    }
-
-    .form-group {
-      margin-bottom: 15px;
-    }
-
-    textarea, input[type="email"] {
-      width: 100%;
-      max-width: 500px;
-      padding: 8px;
-      border-radius: 6px;
-      border: 1px solid #ccc;
-      font-size: 16px;
-    }
-
-    button {
-      padding: 10px 20px;
-      background-color: #3b82f6;
-      color: white;
-      border: none;
-      border-radius: 6px;
-      cursor: pointer;
-      font-weight: bold;
-    }
-
-    button:hover {
-      background-color: #2563eb;
-    }
-  </style>
 </head>
 <body>
-  <header>
-    <h1>NTTV</h1>
-    <p class="subtitle_s">NextTheme.TV – Платформа для тем, творчості та спілкування</p>
-    <nav>
-      <a href="forums">Теми</a>
-      <a href="profile_subs">Підписки</a>
-      <a href="/">Головна</a>
-    </nav>
-  </header>
+  {% include "components/header.jinja" %}
 
-  <div>
-    <p>Вся інформація про тебе тут</p>
-  </div>
+  <div class="profile-container">
+    <div class="profile-intro">
+      <p>Вся інформація про тебе тут</p>
+    </div>
 
-  <li class="post">
-    <div class="profile-content">
-      <h1>Привіт, {{ user.username }}!</h1>
-      <p class="subtitle_s">(UID {{ user.uid }})</p>
-      <p>Email: {{ user.email }}</p>
+    <div class="profile-card">
+      <div class="profile-header">
+        <h1>Привіт, {{ user.username }}!</h1>
+        <div class="uid-badge">UID {{ user.uid }}</div>
+        <p class="email-info">📧 {{ user.email }}</p>
+      </div>
 
-      <div class="badges">
+      <div class="badges-section">
         {% if user.badges %}
-          <h3>Ваші бейджі:</h3>
-          {% for badge in user.badges %}
-            <div class="badge">{{ badge }}</div>
-          {% endfor %}
+          <h3 class="badges-title">Ваші бейджі:</h3>
+          <div class="badges-container">
+            {% for badge in user.badges %}
+              <div class="badge">{{ badge }}</div>
+            {% endfor %}
+          </div>
         {% else %}
-          <p class="subtitle_s">У вас поки що немає бейджів.</p>
+          <p class="no-badges">У вас поки що немає бейджів.</p>
         {% endif %}
       </div>
     </div>
-  </li>
 
-  <li class="post">
-    <h2>Налаштування профілю</h2>
-    <form method="POST" action="{{ url_for('update_user') }}">
-      <div class="form-group">
-        <label for="bio"><strong>Про себе (біо):</strong></label><br>
-        <textarea id="bio" name="bio" rows="4">{{ user.bio }}</textarea>
-      </div>
-      <div class="form-group">
-        <label for="d_gmail"><strong>Публічна пошта:</strong></label><br>
-        <input type="email" id="d_gmail" name="d_gmail" value="{{ user.d_gmail }}">
-      </div>
+    <div class="settings-card">
+      <h2 class="settings-title">Налаштування профілю</h2>
+      <form method="POST" action="{{ url_for('update_user') }}">
+        <div class="form-group">
+          <label for="bio">Про себе (біо):</label>
+          <textarea id="bio" name="bio" rows="6" placeholder="Розкажіть щось цікаве про себе...">{{ user.bio }}</textarea>
+        </div>
+        
+        <div class="form-group">
+          <label for="d_gmail">Публічна пошта:</label>
+          <input type="email" id="d_gmail" name="d_gmail" value="{{ user.d_gmail }}" placeholder="your-public@email.com">
+        </div>
 
-      <a href="{{ url_for('view_user_profile', uid=session['user_id']) }}">Переглянути мій акаунт</a>
-      <button type="submit">Оновити профіль</button>
-    </form>
-  </li>
+        <div class="form-actions">
+          <a href="{{ url_for('view_user_profile', uid=session['user_id']) }}" class="profile-link">
+            👁 Переглянути мій акаунт
+          </a>
+          <button type="submit" class="update-btn">
+            💾 Оновити профіль
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  {% include "components/footer.jinja" %}
 </body>
 </html>

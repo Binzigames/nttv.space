@@ -1,0 +1,332 @@
+.profile-container {
+    max-width: 1000px;
+    margin: 0 auto;
+    padding: 2rem;
+    animation: fadeInUp 1s ease-out;
+}
+
+.profile-intro {
+    text-align: center;
+    margin-bottom: 3rem;
+    padding: 2rem;
+    background: linear-gradient(135deg, 
+    rgba(138, 43, 226, 0.1) 0%, 
+    rgba(0, 255, 65, 0.1) 100%);
+    border-radius: 12px;
+    border: 1px solid var(--concrete-gray);
+}
+
+.profile-intro p {
+    font-size: 1.2rem;
+    color: var(--dirty-white);
+    opacity: 0.8;
+    font-family: 'JetBrains Mono', monospace;
+}
+
+.profile-card {
+    background: linear-gradient(135deg, 
+    rgba(26, 26, 26, 0.95) 0%, 
+    rgba(44, 44, 44, 0.8) 50%, 
+    rgba(26, 26, 26, 0.95) 100%);
+    border: 2px solid var(--concrete-gray);
+    border-radius: 12px;
+    padding: 2.5rem;
+    position: relative;
+    overflow: hidden;
+    transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    box-shadow: 
+    0 8px 32px rgba(0, 0, 0, 0.4),
+    inset 0 1px 0 rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(10px);
+    margin-bottom: 2rem;
+}
+
+@keyframes gradientBorder {
+    0% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+    100% { background-position: 0% 50%; }
+}
+
+.profile-header {
+    text-align: center;
+    margin-bottom: 2rem;
+    position: relative;
+}
+
+.profile-header h1 {
+    font-family: 'Staatliches', cursive;
+    font-size: clamp(2rem, 4vw, 3rem);
+    color: var(--neon-white);
+    text-transform: uppercase;
+    letter-spacing: 3px;
+    margin-bottom: 0.5rem;
+    text-shadow: 
+    2px 2px 0px var(--toxic-purple),
+    0 0 20px rgba(255, 255, 255, 0.3);
+    animation: textGlow 3s ease-in-out infinite alternate;
+}
+
+@keyframes textGlow {
+    from {
+    text-shadow: 
+        2px 2px 0px var(--toxic-purple),
+        0 0 20px rgba(255, 255, 255, 0.3);
+    }
+    to {
+    text-shadow: 
+        2px 2px 0px var(--toxic-purple),
+        0 0 30px rgba(255, 255, 255, 0.5),
+        0 0 40px rgba(138, 43, 226, 0.3);
+    }
+}
+
+.uid-badge {
+    display: inline-block;
+    background: linear-gradient(135deg, var(--toxic-purple), var(--electric-blue));
+    color: var(--neon-white);
+    padding: 0.5rem 1rem;
+    border-radius: 20px;
+    font-family: 'JetBrains Mono', monospace;
+    font-weight: 700;
+    font-size: 0.9rem;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    margin-bottom: 1rem;
+    box-shadow: 0 4px 15px rgba(138, 43, 226, 0.4);
+}
+
+.email-info {
+    color: var(--dirty-white);
+    font-size: 1.1rem;
+    margin-bottom: 1.5rem;
+    opacity: 0.9;
+}
+
+.badges-section {
+    margin-top: 2rem;
+    text-align: center;
+}
+
+.badges-title {
+    font-family: 'Staatliches', cursive;
+    font-size: 1.5rem;
+    color: var(--toxic-green);
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    margin-bottom: 1rem;
+    text-shadow: 0 0 10px rgba(0, 255, 65, 0.5);
+}
+
+.badges-container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1rem;
+    justify-content: center;
+    margin-top: 1rem;
+}
+
+.badge {
+    background: linear-gradient(135deg, var(--underground-orange), var(--graffiti-pink));
+    color: var(--neon-white);
+    border-radius: 25px;
+    padding: 0.8rem 1.5rem;
+    font-size: 1rem;
+    font-weight: 700;
+    font-family: 'JetBrains Mono', monospace;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    box-shadow: 
+    0 4px 15px rgba(255, 140, 0, 0.4),
+    inset 0 1px 0 rgba(255, 255, 255, 0.2);
+    transition: all 0.3s ease;
+    position: relative;
+    overflow: hidden;
+}
+
+.badge::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+    transition: left 0.5s;
+}
+
+.no-badges {
+    color: var(--concrete-gray);
+    font-style: italic;
+    font-size: 1rem;
+}
+
+.settings-card {
+    background: linear-gradient(135deg, 
+    rgba(26, 26, 26, 0.95) 0%, 
+    rgba(44, 44, 44, 0.8) 50%, 
+    rgba(26, 26, 26, 0.95) 100%);
+    border: 2px solid var(--concrete-gray);
+    border-radius: 12px;
+    padding: 2.5rem;
+    position: relative;
+    overflow: hidden;
+    box-shadow: 
+    0 8px 32px rgba(0, 0, 0, 0.4),
+    inset 0 1px 0 rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(10px);
+}
+
+.settings-title {
+    font-family: 'Staatliches', cursive;
+    font-size: clamp(1.5rem, 3vw, 2.2rem);
+    margin-bottom: 2rem;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    text-align: center;
+    color: var(--neon-white);
+    text-shadow: 
+    2px 2px 0px var(--toxic-purple),
+    0 0 20px rgba(255, 255, 255, 0.3);
+}
+
+.form-group {
+    margin-bottom: 2rem;
+    position: relative;
+}
+
+.form-group label {
+    display: block;
+    font-weight: 700;
+    color: var(--toxic-purple);
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    font-size: 0.9rem;
+    margin-bottom: 0.8rem;
+    font-family: 'JetBrains Mono', monospace;
+}
+
+.form-group textarea,
+.form-group input[type="email"] {
+    width: 100%;
+    max-width: none;
+    background: linear-gradient(135deg, rgba(26, 26, 26, 0.8), rgba(44, 44, 44, 0.6));
+    border: 2px solid var(--concrete-gray);
+    padding: 1.2rem;
+    border-radius: 8px;
+    color: var(--neon-white);
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 1rem;
+    transition: all 0.3s ease;
+    backdrop-filter: blur(5px);
+    resize: vertical;
+}
+
+.form-group textarea:focus,
+.form-group input[type="email"]:focus {
+    border-color: var(--toxic-purple);
+    outline: none;
+    box-shadow: 
+    0 0 0 3px rgba(138, 43, 226, 0.3),
+    inset 0 2px 4px rgba(0, 0, 0, 0.2);
+    background: linear-gradient(135deg, rgba(26, 26, 26, 0.95), rgba(44, 44, 44, 0.8));
+}
+
+.form-actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1rem;
+    align-items: center;
+    margin-top: 2rem;
+}
+
+.profile-link {
+    color: var(--toxic-green);
+    text-decoration: none;
+    font-weight: 700;
+    font-family: 'JetBrains Mono', monospace;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    transition: all 0.3s ease;
+    padding: 0.8rem 1.2rem;
+    border: 2px solid var(--toxic-green);
+    border-radius: 8px;
+    background: rgba(0, 255, 65, 0.1);
+}
+
+.profile-link:hover {
+    background: var(--toxic-green);
+    color: var(--pitch-black);
+    text-shadow: none;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 15px rgba(0, 255, 65, 0.4);
+}
+
+.update-btn {
+    background: linear-gradient(135deg, var(--toxic-purple), var(--electric-blue));
+    color: var(--neon-white);
+    border: none;
+    padding: 1rem 2rem;
+    font-weight: 700;
+    font-family: 'JetBrains Mono', monospace;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: all 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    font-size: 0.9rem;
+    position: relative;
+    overflow: hidden;
+    box-shadow: 0 4px 15px rgba(138, 43, 226, 0.4);
+}
+
+.update-btn::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+    transition: left 0.5s;
+}
+
+.update-btn:hover::before {
+    left: 100%;
+}
+
+.update-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 25px rgba(138, 43, 226, 0.6);
+}
+
+@media (max-width: 768px) {
+    .profile-container {
+    padding: 1rem;
+    }
+    
+    .profile-card,
+    .settings-card {
+    padding: 1.5rem;
+    }
+    
+    .form-actions {
+    flex-direction: column;
+    align-items: stretch;
+    }
+    
+    .profile-link,
+    .update-btn {
+    text-align: center;
+    width: 100%;
+    }
+    
+    .badges-container {
+    justify-content: center;
+    }
+}
+
+/* settings-title \
+
+profile-header
+
+*/
