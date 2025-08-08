@@ -1,23 +1,48 @@
 <!DOCTYPE html>
 <html lang="uk">
-<link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Вхід</title>
+    <title>Вхід - NTTV</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='global.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='login.css') }}">
+    <link rel="icon" href="{{ url_for('static', filename='favicon.ico') }}" type="image/x-icon">
     <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-1119387653458763"
-     crossorigin="anonymous"></script>
-     <link rel="icon" href="{{ url_for('static', filename='favicon.ico') }}" type="image/x-icon">
+         crossorigin="anonymous"></script>
 </head>
 <body>
-    <h2>Вхід</h2>
-    <form method="POST">
-        <label for="email">Електронна пошта:</label>
-        <input type="email" id="email" name="email" required><br><br>
-        <label for="password">Пароль:</label>
-        <input type="password" id="password" name="password" required><br><br>
-        <button type="submit">Увійти</button>
-    </form>
-    <p>Немає акаунту? <a href="{{ url_for('register') }}">Зареєструватися</a></p>
+    <div class="form-container">
+        <div class="form-wrapper">
+            <div class="form-header">
+                <h1>Вхід до системи</h1>
+                <p>Увійдіть до свого акаунту NTTV</p>
+            </div>
+            
+            <div class="form-content">
+                <form method="POST">
+                    <div class="form-group">
+                        <label for="email">Електронна пошта</label>
+                        <div class="input-wrapper">
+                            <input type="email" id="email" name="email" placeholder="Введіть вашу пошту" required>
+                        </div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="password">Пароль</label>
+                        <div class="input-wrapper">
+                            <input type="password" id="password" name="password" placeholder="Введіть ваш пароль" required>
+                        </div>
+                    </div>
+                    
+                    <button type="submit" class="form-submit">Увійти</button>
+                </form>
+                
+                <div class="form-footer">
+                    <p>Немає акаунту? <a href="{{ url_for('register') }}">Створити акаунт</a></p>
+                    <a href="{{ url_for('index') }}" class="back-link">Повернутися на головну</a>
+                </div>
+            </div>
+        </div>
+    </div>
 </body>
 </html>

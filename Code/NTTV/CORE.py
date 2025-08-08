@@ -12,7 +12,6 @@ import uuid
 import json
 from Console import *
 import random
-from discord_bot import announce_stream, run_discord_bot, bot
 import asyncio
 
 
@@ -478,7 +477,6 @@ def moderate_forum(forum_id):
             def run_announce():
                 loop = asyncio.new_event_loop()
                 asyncio.set_event_loop(loop)
-                loop.run_until_complete(announce_stream(forum['name'], author_name, forum_url, stream_url))
                 loop.close()
 
             threading.Thread(target=run_announce, daemon=True).start()
@@ -678,37 +676,7 @@ class ServerThread(threading.Thread):
 
 
 def start():
-    global server_thread
-
-    print(core + " Launching Discord bot thread…")
-    threading.Thread(target=run_discord_bot, daemon=True).start()
-
-    print(core + " Starting Flask server…")
-    if server_thread and server_thread.is_alive():
-        print(core + " Server is already running.")
-        return
-
-    try:
-        server_thread = ServerThread(app)
-        server_thread.start()
-        print(core + " Server started successfully.")
-    except Exception as e:
-        print(core + f" Error starting server: {e}")
-    handle_console()
-def reload():
-    global server_thread
-    if server_thread and server_thread.is_alive():
-        print(core + " Reloading server...")
-        server_thread.shutdown()
-        server_thread.join()
-        print(core + " Server stopped.")
-    else:
-        print(core + " Server is not running.")
-    print(core + " Restarting server...")
-    start()
-
-
-
+    app.run(debug=True)
 
 # ------------->console
 
