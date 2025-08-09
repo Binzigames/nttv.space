@@ -2,9 +2,9 @@ import discord
 import asyncio
 import json
 import os
-import DB.str_db as db
-TOKEN = db.d_token
-CONFIG_FILE = "shared_config.json"
+#import DB.str_db as db
+TOKEN = 0
+CONFIG_FILE = "db/shared_config.json"
 
 intents = discord.Intents.default()
 intents.message_content = True
