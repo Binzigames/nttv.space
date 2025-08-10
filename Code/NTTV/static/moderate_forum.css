@@ -1,0 +1,397 @@
+.admin-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 2rem;
+    animation: fadeInUp 1s ease-out;
+}
+
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(30px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.admin-header {
+    text-align: center;
+    margin-bottom: 3rem;
+    position: relative;
+    padding: 2rem;
+    background: linear-gradient(135deg, 
+        rgba(138, 43, 226, 0.15) 0%, 
+        rgba(255, 0, 64, 0.15) 100%);
+    border-radius: 20px;
+    border: 2px solid var(--concrete-gray);
+    backdrop-filter: blur(10px);
+}
+
+.admin-header h1 {
+    font-family: 'Staatliches', cursive;
+    font-size: clamp(2rem, 4vw, 3.5rem);
+    color: var(--neon-white);
+    text-transform: uppercase;
+    letter-spacing: 3px;
+    margin-bottom: 1rem;
+    text-shadow: 
+        2px 2px 0px var(--blood-red),
+        0 0 20px rgba(255, 0, 64, 0.5);
+    animation: adminGlow 3s ease-in-out infinite alternate;
+}
+
+@keyframes adminGlow {
+    from {
+        text-shadow: 
+            2px 2px 0px var(--blood-red),
+            0 0 20px rgba(255, 0, 64, 0.5);
+    }
+    to {
+        text-shadow: 
+            2px 2px 0px var(--blood-red),
+            0 0 30px rgba(255, 0, 64, 0.7),
+            0 0 40px rgba(138, 43, 226, 0.4);
+    }
+}
+
+.forum-stats {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 1rem;
+    margin-top: 1.5rem;
+}
+
+.stat-card {
+    background: linear-gradient(135deg, 
+        rgba(26, 26, 26, 0.9), 
+        rgba(44, 44, 44, 0.7));
+    border: 2px solid var(--concrete-gray);
+    border-radius: 12px;
+    padding: 1.5rem;
+    text-align: center;
+    transition: all 0.3s ease;
+    backdrop-filter: blur(10px);
+}
+
+.stat-card:hover {
+    border-color: var(--toxic-purple);
+    transform: translateY(-5px);
+    box-shadow: 0 10px 30px rgba(138, 43, 226, 0.3);
+}
+
+.stat-label {
+    color: var(--toxic-purple);
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.9rem;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    margin-bottom: 0.5rem;
+}
+
+.stat-value {
+    color: var(--neon-white);
+    font-size: 1.5rem;
+    font-weight: 700;
+}
+
+.admin-section {
+    background: linear-gradient(135deg, 
+        rgba(26, 26, 26, 0.95) 0%, 
+        rgba(44, 44, 44, 0.8) 50%, 
+        rgba(26, 26, 26, 0.95) 100%);
+    border: 2px solid var(--concrete-gray);
+    border-radius: 15px;
+    padding: 2.5rem;
+    margin-bottom: 2rem;
+    position: relative;
+    overflow: hidden;
+    backdrop-filter: blur(15px);
+    box-shadow: 
+        0 10px 30px rgba(0, 0, 0, 0.4),
+        inset 0 1px 0 rgba(255, 255, 255, 0.1);
+    transition: all 0.3s ease;
+}
+
+.section-title {
+    font-family: 'Staatliches', cursive;
+    font-size: clamp(1.3rem, 2.5vw, 1.8rem);
+    color: var(--toxic-green);
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    margin-bottom: 1.5rem;
+    text-shadow: 0 0 15px rgba(0, 255, 65, 0.3);
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.section-title.danger {
+    color: var(--blood-red);
+    text-shadow: 0 0 15px rgba(255, 0, 64, 0.3);
+}
+
+.section-title.warning {
+    color: var(--underground-orange);
+    text-shadow: 0 0 15px rgba(255, 140, 0, 0.3);
+}
+
+.form-group {
+    margin-bottom: 1.5rem;
+}
+
+.form-group label {
+    display: block;
+    font-weight: 700;
+    color: var(--toxic-purple);
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    font-size: 0.9rem;
+    margin-bottom: 0.5rem;
+    font-family: 'JetBrains Mono', monospace;
+}
+
+.form-group input,
+.form-group textarea {
+    width: 100%;
+    background: linear-gradient(135deg, 
+        rgba(26, 26, 26, 0.9), 
+        rgba(44, 44, 44, 0.7));
+    border: 2px solid var(--concrete-gray);
+    padding: 1rem;
+    border-radius: 8px;
+    color: var(--neon-white);
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.95rem;
+    transition: all 0.3s ease;
+    backdrop-filter: blur(5px);
+    resize: vertical;
+}
+
+.form-group input:focus,
+.form-group textarea:focus {
+    border-color: var(--toxic-purple);
+    outline: none;
+    box-shadow: 
+        0 0 0 3px rgba(138, 43, 226, 0.3),
+        inset 0 2px 4px rgba(0, 0, 0, 0.2);
+    background: linear-gradient(135deg, 
+        rgba(26, 26, 26, 0.95), 
+        rgba(44, 44, 44, 0.85));
+}
+
+.admin-button {
+    background: linear-gradient(135deg, 
+        var(--toxic-purple), 
+        var(--electric-blue));
+    color: var(--neon-white);
+    border: none;
+    padding: 1rem 1.5rem;
+    font-weight: 700;
+    font-family: 'JetBrains Mono', monospace;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: all 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    font-size: 0.9rem;
+    position: relative;
+    overflow: hidden;
+    box-shadow: 0 4px 15px rgba(138, 43, 226, 0.4);
+    margin-right: 1rem;
+    margin-bottom: 1rem;
+}
+
+.admin-button::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, 
+        transparent, 
+        rgba(255, 255, 255, 0.2), 
+        transparent);
+    transition: left 0.5s ease;
+}
+
+.admin-button:hover::before {
+    left: 100%;
+}
+
+.admin-button:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 25px rgba(138, 43, 226, 0.6);
+}
+
+.admin-button.success {
+    background: linear-gradient(135deg, 
+        var(--toxic-green), 
+        var(--electric-blue));
+    box-shadow: 0 4px 15px rgba(0, 255, 65, 0.4);
+}
+
+.admin-button.success:hover {
+    box-shadow: 0 8px 25px rgba(0, 255, 65, 0.6);
+}
+
+.admin-button.danger {
+    background: linear-gradient(135deg, 
+        var(--blood-red), 
+        var(--graffiti-pink));
+    box-shadow: 0 4px 15px rgba(255, 0, 64, 0.4);
+}
+
+.admin-button.danger:hover {
+    box-shadow: 0 8px 25px rgba(255, 0, 64, 0.6);
+}
+
+.admin-button.warning {
+    background: linear-gradient(135deg, 
+        var(--underground-orange), 
+        var(--neon-yellow));
+    box-shadow: 0 4px 15px rgba(255, 140, 0, 0.4);
+}
+
+.admin-button.warning:hover {
+    box-shadow: 0 8px 25px rgba(255, 140, 0, 0.6);
+}
+
+.stream-status {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    margin-bottom: 1.5rem;
+    padding: 1rem;
+    border-radius: 10px;
+    background: rgba(26, 26, 26, 0.8);
+    border: 2px solid var(--concrete-gray);
+}
+
+.stream-status.live {
+    border-color: var(--toxic-green);
+    background: rgba(0, 255, 65, 0.1);
+    animation: livePulse 2s ease-in-out infinite;
+}
+
+.stream-status.offline {
+    border-color: var(--blood-red);
+    background: rgba(255, 0, 64, 0.1);
+}
+
+@keyframes livePulse {
+    0%, 100% { 
+        box-shadow: 0 0 10px rgba(0, 255, 65, 0.3);
+    }
+    50% { 
+        box-shadow: 0 0 25px rgba(0, 255, 65, 0.6);
+    }
+}
+
+.status-indicator {
+    font-size: 1.2rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+.status-indicator.live {
+    color: var(--toxic-green);
+    text-shadow: 0 0 10px rgba(0, 255, 65, 0.5);
+}
+
+.status-indicator.offline {
+    color: var(--blood-red);
+    text-shadow: 0 0 10px rgba(255, 0, 64, 0.5);
+}
+
+.stream-player {
+    margin: 1.5rem 0;
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+}
+
+.stream-player iframe {
+    width: 100%;
+    height: 400px;
+    border: none;
+}
+
+.navigation-section {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1rem;
+    margin-top: 2rem;
+    padding: 2rem;
+    background: linear-gradient(135deg, 
+        rgba(44, 44, 44, 0.8), 
+        rgba(26, 26, 26, 0.9));
+    border-radius: 15px;
+    border: 2px solid var(--concrete-gray);
+}
+
+.nav-link {
+    color: var(--electric-blue);
+    text-decoration: none;
+    font-weight: 700;
+    font-family: 'JetBrains Mono', monospace;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    transition: all 0.3s ease;
+    padding: 0.8rem 1.2rem;
+    border: 2px solid var(--electric-blue);
+    border-radius: 8px;
+    background: rgba(0, 128, 255, 0.1);
+}
+
+.nav-link:hover {
+    background: var(--electric-blue);
+    color: var(--pitch-black);
+    text-shadow: none;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 15px rgba(0, 128, 255, 0.4);
+}
+
+.form-inline {
+    display: flex;
+    align-items: end;
+    gap: 1rem;
+    flex-wrap: wrap;
+}
+
+.form-inline .form-group {
+    flex: 1;
+    min-width: 200px;
+}
+
+@media (max-width: 768px) {
+    .admin-container {
+        padding: 1rem;
+    }
+    
+    .admin-section {
+        padding: 1.5rem;
+    }
+    
+    .forum-stats {
+        grid-template-columns: 1fr;
+    }
+    
+    .form-inline {
+        flex-direction: column;
+        align-items: stretch;
+    }
+    
+    .navigation-section {
+        flex-direction: column;
+    }
+    
+    .stream-player iframe {
+        height: 250px;
+    }
+}
+
+/* admin-section */

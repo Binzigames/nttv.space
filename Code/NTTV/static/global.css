@@ -77,7 +77,3 @@ a {
     transition: all 0.3s ease;
     position: relative;
 }
-
-a:hover {
-    text-shadow: 0 0 10px rgba(138, 43, 226, 0.5);
-}

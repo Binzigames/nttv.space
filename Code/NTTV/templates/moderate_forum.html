@@ -3,100 +3,134 @@
 <head>
     <meta charset="UTF-8">
     <title>NTTV / Панель модерування - {{ forum.name }}</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='global.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='moderate_forum.css') }}">
     <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-1119387653458763"
-     crossorigin="anonymous"></script>
+         crossorigin="anonymous"></script>
     <link rel="icon" href="{{ url_for('static', filename='favicon.ico') }}" type="image/x-icon">
 </head>
 <body>
-    <h1>Панель модерування форуму "{{ forum.name }}"</h1>
-    <p>Автор: {{ forum.author_id }}</p>
-    <p>Кількість підписників: {{ subscriber_count }}</p>
-    <hr>
-
-    <h2>Редагувати форум</h2>
-    <form method="post">
-        <input type="hidden" name="action" value="edit">
-        <label>Назва: <input type="text" name="forum_name" value="{{ forum.name }}"></label><br>
-        <label>Опис: <textarea name="forum_description">{{ forum.description }}</textarea></label><br>
-        <button type="submit">Зберегти</button>
-    </form>
-
-    <hr>
-    <h2>Керування стрімом</h2>
-    <p><strong>Статус:</strong>
-        {% if forum.is_live %}
-            🟢 OnLiVE
-        {% else %}
-            🔴 Offline
-        {% endif %}
-    </p>
-
-    {% if forum.is_live %}
-        {% if forum.youtube_stream_url %}
-            <h3>YouTube стрім:</h3>
-            <iframe width="600" height="340" src="{{ forum.youtube_stream_url | replace('watch?v=', 'embed/') }}"
-                    frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                    allowfullscreen></iframe><br>
-        {% endif %}
-
-        {% if forum.kick_stream_url %}
-        <div id="kickPlayer" class="stream-player">
-            <iframe src="{{ forum.kick_stream_url }}"
-            allowfullscreen></iframe>
+    <div class="admin-container">
+        <div class="admin-header">
+            <h1>⚡ Панель модерування ⚡</h1>
+            <h2>"{{ forum.name }}"</h2>
+            
+            <div class="forum-stats">
+                <div class="stat-card">
+                    <div class="stat-label">Автор</div>
+                    <div class="stat-value">{{ forum.author_id }}</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-label">Підписники</div>
+                    <div class="stat-value">{{ subscriber_count }}</div>
+                </div>
+            </div>
         </div>
-        {% endif %}
 
+        <div class="admin-section">
+            <h2 class="section-title">✏️ Редагувати форум</h2>
+            <form method="post">
+                <input type="hidden" name="action" value="edit">
+                <div class="form-group">
+                    <label>Назва</label>
+                    <input type="text" name="forum_name" value="{{ forum.name }}">
+                </div>
+                <div class="form-group">
+                    <label>Опис</label>
+                    <textarea name="forum_description" rows="4">{{ forum.description }}</textarea>
+                </div>
+                <button type="submit" class="admin-button success">💾 Зберегти</button>
+            </form>
+        </div>
 
-        <form method="post">
-            <input type="hidden" name="action" value="stop_stream">
-            <button type="submit">Зупинити стрім</button>
-        </form>
-    {% else %}
-        <form method="post">
-            <input type="hidden" name="action" value="start_stream">
-            <button type="submit">Почати стрім</button>
-        </form>
-    {% endif %}
+        <div class="admin-section">
+            <h2 class="section-title">🎥 Керування стрімом</h2>
+            
+            <div class="stream-status {% if forum.is_live %}live{% else %}offline{% endif %}">
+                <div class="status-indicator {% if forum.is_live %}live{% else %}offline{% endif %}">
+                    {% if forum.is_live %}
+                        🟢 OnLiVE
+                    {% else %}
+                        🔴 Offline
+                    {% endif %}
+                </div>
+            </div>
 
-    <form method="post" style="margin-top: 10px;">
-        <input type="hidden" name="action" value="update_stream_links">
-        <label>YouTube посилання:
-            <input type="text" name="youtube_stream_url" value="{{ forum.youtube_stream_url or '' }}">
-        </label><br>
-        <label>Kick посилання:
-            <input type="text" name="kick_stream_url" value="{{ forum.kick_stream_url or '' }}">
-        </label><br>
-        <button type="submit">Зберегти посилання</button>
-    </form>
+            {% if forum.is_live %}
+                {% if forum.youtube_stream_url %}
+                    <h3>YouTube стрім:</h3>
+                    <div class="stream-player">
+                        <iframe src="{{ forum.youtube_stream_url | replace('watch?v=', 'embed/') }}"
+                                frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                                allowfullscreen></iframe>
+                    </div>
+                {% endif %}
 
-    <hr>
-    <h2>Видалити форум</h2>
-    <form method="post" onsubmit="return confirm('Ви впевнені, що хочете видалити цей форум?');">
-        <input type="hidden" name="action" value="delete">
-        <button type="submit">Видалити форум</button>
-    </form>
+                {% if forum.kick_stream_url %}
+                    <h3>Kick стрім:</h3>
+                    <div class="stream-player">
+                        <iframe src="{{ forum.kick_stream_url }}" allowfullscreen></iframe>
+                    </div>
+                {% endif %}
 
-    <hr>
-    <h2>Репорт користувача</h2>
-    <form method="post">
-        <input type="hidden" name="action" value="report">
-        <label>UID користувача для репорту: <input type="text" name="report_uid" required></label><br>
-        <label>Причина: <textarea name="reason"></textarea></label><br>
-        <button type="submit">Відправити репорт</button>
-    </form>
+                <form method="post">
+                    <input type="hidden" name="action" value="stop_stream">
+                    <button type="submit" class="admin-button danger">⏹️ Зупинити стрім</button>
+                </form>
+            {% else %}
+                <form method="post">
+                    <input type="hidden" name="action" value="start_stream">
+                    <button type="submit" class="admin-button success">▶️ Почати стрім</button>
+                </form>
+            {% endif %}
 
-    <hr>
-    <p><a href="{{ url_for('forums') }}">Назад до форумів</a></p>
-    <p>
-    <a href="{{ url_for('view_forum', forum_id=forum['id']) }}">
-        ⬅️ Назад до сторінки форуму
-    </a>
-    </p>
-    
-        <p>
-    <a href="{{ url_for('forum_chat', forum_id=forum['id']) }}" target="_blank">
-        💬 Відкрити чат в окремому вікні
-    </a>
-</p>
+            <form method="post" class="form-inline" style="margin-top: 20px;">
+                <input type="hidden" name="action" value="update_stream_links">
+                <div class="form-group">
+                    <label>YouTube посилання</label>
+                    <input type="text" name="youtube_stream_url" value="{{ forum.youtube_stream_url or '' }}" placeholder="https://youtube.com/watch?v=...">
+                </div>
+                <div class="form-group">
+                    <label>Kick посилання</label>
+                    <input type="text" name="kick_stream_url" value="{{ forum.kick_stream_url or '' }}" placeholder="https://kick.com/embed/...">
+                </div>
+                <button type="submit" class="admin-button">🔗 Зберегти посилання</button>
+            </form>
+        </div>
+
+        <div class="admin-section">
+            <h2 class="section-title warning">📝 Репорт користувача</h2>
+            <form method="post" class="form-inline">
+                <input type="hidden" name="action" value="report">
+                <div class="form-group">
+                    <label>UID користувача для репорту</label>
+                    <input type="text" name="report_uid" required placeholder="Введіть UID користувача">
+                </div>
+                <div class="form-group">
+                    <label>Причина</label>
+                    <textarea name="reason" rows="3" placeholder="Опишіть причину репорту..."></textarea>
+                </div>
+                <button type="submit" class="admin-button warning">⚠️ Відправити репорт</button>
+            </form>
+        </div>
+
+        <div class="admin-section">
+            <h2 class="section-title danger">💀 Небезпечна зона</h2>
+            <form method="post" onsubmit="return confirm('Ви впевнені, що хочете видалити цей форум? Це дію неможливо скасувати!');">
+                <input type="hidden" name="action" value="delete">
+                <button type="submit" class="admin-button danger">🗑️ Видалити форум</button>
+            </form>
+        </div>
+
+        <div class="navigation-section">
+            <a href="{{ url_for('forums') }}" class="nav-link">📋 Назад до форумів</a>
+            <a href="{{ url_for('view_forum', forum_id=forum['id']) }}" class="nav-link">
+                ⬅️ До сторінки форуму
+            </a>
+            <a href="{{ url_for('forum_chat', forum_id=forum['id']) }}" target="_blank" class="nav-link">
+                💬 Відкрити чат
+            </a>
+        </div>
+    </div>
 </body>
 </html>

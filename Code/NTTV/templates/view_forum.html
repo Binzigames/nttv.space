@@ -8,13 +8,145 @@
      crossorigin="anonymous"></script>
     <link rel="icon" href="{{ url_for('static', filename='favicon.ico') }}" type="image/x-icon">
     <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+    <link href="https://fonts.googleapis.com/css2?family=Staatliches:wght@400&family=JetBrains+Mono:wght@300;400;600;700&display=swap" rel="stylesheet">
 
 <style>
+:root {
+    --pitch-black: #0a0a0a;
+    --concrete-gray: #4a4a4a;
+    --dirty-white: #e8e8e8;
+    --neon-white: #ffffff;
+    --toxic-purple: #8a2be2;
+    --electric-blue: #0080ff;
+    --toxic-green: #00ff41;
+    --graffiti-pink: #ff1493;
+    --underground-orange: #ff8c00;
+    --neon-yellow: #ffff00;
+    --blood-red: #ff0040;
+}
+
+body {
+    background: linear-gradient(135deg, 
+        var(--pitch-black) 0%, 
+        rgba(26, 26, 26, 0.95) 50%, 
+        var(--pitch-black) 100%);
+    min-height: 100vh;
+    font-family: 'JetBrains Mono', monospace;
+    animation: fadeInUp 1s ease-out;
+}
+
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(30px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+header {
+    background: linear-gradient(135deg, 
+        rgba(138, 43, 226, 0.15) 0%, 
+        rgba(0, 255, 65, 0.15) 50%,
+        rgba(255, 20, 147, 0.15) 100%);
+    border: 2px solid var(--concrete-gray);
+    border-radius: 20px;
+    padding: 2rem;
+    text-align: center;
+    margin-bottom: 2rem;
+    position: relative;
+    overflow: hidden;
+    backdrop-filter: blur(15px);
+    box-shadow: 
+        0 15px 35px rgba(0, 0, 0, 0.3),
+        inset 0 1px 0 rgba(255, 255, 255, 0.1);
+}
+
+header h1 {
+    font-family: 'Staatliches', cursive;
+    font-size: clamp(2.5rem, 5vw, 4rem);
+    color: var(--neon-white);
+    text-transform: uppercase;
+    letter-spacing: 4px;
+    margin-bottom: 1rem;
+    text-shadow: 
+        2px 2px 0px var(--toxic-purple),
+        0 0 20px rgba(138, 43, 226, 0.5);
+    animation: titlePulse 3s ease-in-out infinite;
+}
+
+@keyframes titlePulse {
+    0%, 100% {
+        text-shadow: 
+            2px 2px 0px var(--toxic-purple),
+            0 0 20px rgba(138, 43, 226, 0.5);
+    }
+    50% {
+        text-shadow: 
+            2px 2px 0px var(--toxic-purple),
+            0 0 30px rgba(138, 43, 226, 0.7),
+            0 0 40px rgba(0, 255, 65, 0.3);
+    }
+}
+
+.subtitle_s {
+    color: var(--dirty-white);
+    font-size: 1.2rem;
+    opacity: 0.9;
+    font-family: 'JetBrains Mono', monospace;
+}
+
+nav a {
+    color: var(--toxic-purple);
+    text-decoration: none;
+    font-weight: 700;
+    font-family: 'JetBrains Mono', monospace;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    transition: all 0.3s ease;
+    padding: 0.8rem 1.5rem;
+    border: 2px solid var(--toxic-purple);
+    border-radius: 8px;
+    background: rgba(0, 128, 255, 0.1);
+    position: relative;
+    overflow: hidden;
+    margin-top: 1rem;
+    display: inline-block;
+}
+
+nav a::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.1), transparent);
+    transition: left 0.5s ease;
+}
+
+nav a:hover::before {
+    left: 100%;
+}
+
+nav a:hover {
+    background: var(--toxic-purple);
+    color: var(--pitch-black);
+    text-shadow: none;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 15px rgba(0, 128, 255, 0.4);
+}
+
 main {
     display: flex;
     flex-direction: row;
     gap: 20px;
     flex-wrap: wrap;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 2rem;
 }
 
 .left-column {
@@ -28,19 +160,82 @@ main {
     max-width: 450px;
 }
 
-.chat-box {
-    border-left: 2px solid #ccc;
-    padding-left: 15px;
+section.post {
+    background: linear-gradient(135deg, 
+        rgba(26, 26, 26, 0.95) 0%, 
+        rgba(44, 44, 44, 0.8) 50%, 
+        rgba(26, 26, 26, 0.95) 100%);
+    border: 2px solid var(--concrete-gray);
+    border-radius: 15px;
+    padding: 2.5rem;
+    position: relative;
+    overflow: hidden;
+    transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    backdrop-filter: blur(15px);
+    box-shadow: 
+        0 10px 30px rgba(0, 0, 0, 0.4),
+        inset 0 1px 0 rgba(255, 255, 255, 0.1);
+    margin-bottom: 2rem;
 }
 
-.chat-box .messages li {
-    margin-bottom: 15px;
-    padding-bottom: 10px;
-    border-bottom: 1px solid #eee;
+section.post h2,
+section.post h3 {
+    font-family: 'Staatliches', cursive;
+    font-size: clamp(1.5rem, 3vw, 2.2rem);
+    color: var(--neon-white);
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    margin-bottom: 1rem;
+    text-shadow: 0 0 15px rgba(255, 255, 255, 0.3);
 }
 
-.stream-player-wrapper {
-    margin-bottom: 20px;
+.live-container {
+    background: linear-gradient(135deg, 
+        rgba(255, 0, 64, 0.15) 0%, 
+        rgba(138, 43, 226, 0.15) 50%,
+        rgba(0, 255, 65, 0.15) 100%);
+    border: 2px solid var(--blood-red);
+    border-radius: 15px;
+    padding: 2.5rem;
+    position: relative;
+    overflow: hidden;
+    backdrop-filter: blur(15px);
+    box-shadow: 
+        0 10px 30px rgba(255, 0, 64, 0.3),
+        inset 0 1px 0 rgba(255, 255, 255, 0.1);
+    margin-bottom: 2rem;
+}
+
+.live-container h2 {
+    color: var(--blood-red);
+    text-shadow: 0 0 20px rgba(255, 0, 64, 0.5);
+    animation: titlePulse 2s ease-in-out infinite;
+}
+
+.stream-player-wrapper label {
+    color: var(--toxic-purple);
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.9rem;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    margin-bottom: 0.5rem;
+    display: block;
+}
+
+.stream-player-wrapper select {
+    background: rgba(26, 26, 26, 0.8);
+    border: 2px solid var(--concrete-gray);
+    border-radius: 8px;
+    padding: 0.8rem 1.2rem;
+    color: var(--neon-white);
+    font-family: 'JetBrains Mono', monospace;
+    transition: all 0.3s ease;
+    margin-bottom: 1rem;
+}
+
+.stream-player-wrapper select:hover {
+    border-color: var(--toxic-purple);
+    background: rgba(138, 43, 226, 0.1);
 }
 
 .stream-player {
@@ -49,6 +244,9 @@ main {
     padding-top: 56.25%;
     margin-top: 20px;
     display: none;
+    border-radius: 10px;
+    overflow: hidden;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
 }
 
 .stream-player.active {
@@ -61,6 +259,155 @@ main {
     width: 100%;
     height: 100%;
     border: none;
+    border-radius: 10px;
+}
+
+.post-content div {
+    color: var(--dirty-white);
+    font-size: 1rem;
+    line-height: 1.6;
+    opacity: 0.9;
+}
+
+.chat-box {
+    border-left: 4px solid var(--toxic-green);
+    padding-left: 15px;
+    background: linear-gradient(135deg, 
+        rgba(0, 255, 65, 0.05) 0%, 
+        rgba(26, 26, 26, 0.95) 50%, 
+        rgba(0, 255, 65, 0.05) 100%);
+}
+
+.chat-box h3 {
+    color: var(--toxic-green);
+    text-shadow: 0 0 15px rgba(0, 255, 65, 0.3);
+}
+
+.chat-box form {
+    display: flex;
+    gap: 1rem;
+    margin-bottom: 2rem;
+    align-items: flex-end;
+}
+
+.chat-box input[type="text"] {
+    flex: 1;
+    background: rgba(26, 26, 26, 0.8);
+    border: 2px solid var(--concrete-gray);
+    border-radius: 8px;
+    padding: 0.8rem 1.2rem;
+    color: var(--neon-white);
+    font-family: 'JetBrains Mono', monospace;
+    transition: all 0.3s ease;
+}
+
+.chat-box input[type="text"]:focus {
+    border-color: var(--toxic-green);
+    background: rgba(0, 255, 65, 0.1);
+    outline: none;
+}
+
+.chat-box button[type="submit"] {
+    background: linear-gradient(135deg, var(--toxic-green), var(--electric-blue));
+    color: var(--neon-white);
+    border: none;
+    padding: 0.8rem 1.5rem;
+    font-weight: 700;
+    font-family: 'JetBrains Mono', monospace;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: all 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    font-size: 0.85rem;
+    position: relative;
+    overflow: hidden;
+    box-shadow: 0 4px 15px rgba(0, 255, 65, 0.4);
+}
+
+.chat-box button[type="submit"]::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+    transition: left 0.5s ease;
+}
+
+.chat-box button[type="submit"]:hover::before {
+    left: 100%;
+}
+
+.chat-box button[type="submit"]:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 25px rgba(0, 255, 65, 0.6);
+}
+
+.messages li {
+    margin-bottom: 15px;
+    padding-bottom: 15px;
+    border-bottom: 1px solid rgba(74, 74, 74, 0.5);
+    background: rgba(44, 44, 44, 0.3);
+    border-radius: 10px;
+    padding: 1rem;
+    transition: all 0.3s ease;
+}
+
+.messages li:hover {
+    background: rgba(44, 44, 44, 0.5);
+    border-bottom-color: var(--toxic-green);
+}
+
+.message a {
+    color: var(--toxic-purple);
+    text-decoration: none;
+    font-weight: 700;
+    font-size: 1rem;
+    transition: all 0.3s ease;
+}
+
+.message a:hover {
+    color: var(--electric-blue);
+    text-shadow: 0 0 10px rgba(0, 128, 255, 0.5);
+}
+
+.message p {
+    color: var(--dirty-white);
+    margin: 0.5rem 0;
+    line-height: 1.5;
+}
+
+.author {
+    color: var(--concrete-gray);
+    font-size: 0.8rem;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+}
+
+.author form {
+    display: inline-flex;
+    margin: 0;
+}
+
+.author button {
+    background: linear-gradient(135deg, var(--blood-red), var(--graffiti-pink));
+    border: none;
+    padding: 0.3rem 0.6rem;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    font-size: 0.8rem;
+    box-shadow: 0 2px 8px rgba(255, 0, 64, 0.3);
+}
+
+.author button:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 4px 12px rgba(255, 0, 64, 0.5);
 }
 
 @media (max-width: 768px) {
@@ -76,18 +423,27 @@ main {
         flex: 1 1 100%;
     }
 
+    section.post {
+        padding: 1.5rem;
+    }
+
     .chat-box form {
         flex-direction: column;
+        gap: 1rem;
     }
 
     .chat-box input[type="text"] {
         width: 100%;
-        margin-bottom: 10px;
     }
 
     .stream-player-wrapper select {
         width: 100%;
         margin-top: 10px;
+    }
+
+    .author {
+        flex-direction: column;
+        align-items: flex-start;
     }
 }
 </style>

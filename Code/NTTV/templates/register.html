@@ -1,25 +1,55 @@
 <!DOCTYPE html>
 <html lang="en">
-<link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>NTTV - Реєстрація</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='global.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='login.css') }}">
     <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-1119387653458763"
-     crossorigin="anonymous"></script>
+         crossorigin="anonymous"></script>
     <link rel="icon" href="{{ url_for('static', filename='favicon.ico') }}" type="image/x-icon">
 </head>
 <body>
-    <h2>Реєстрація на NTTV - це початок вашої маленької пригоди 💜</h2>
-    <form action="{{ url_for('register') }}" method="POST">
-        <label for="username">Username:</label>
-        <input type="text" name="username" id="username" required><br><br>
-        <label for="email">Пошта:</label>
-        <input type="email" name="email" id="email" required><br><br>
-        <label for="password">Пароль:</label>
-        <input type="password" name="password" id="password" required><br><br>
-        <button type="submit">Почати пригоду!</button>
-        <a href="login">я вже маю акаунт.</a>
-    </form>
+    <div class="login-container">
+        <div class="form-wrapper">
+            <div class="form-header">
+                <h1>Реєстрація на NTTV</h1>
+                <p>Приєднуйтесь до спільноти</p>
+            </div>
+            
+            <div class="form-content">
+                <form action="{{ url_for('register') }}" method="POST">
+                    <div class="form-group">
+                        <label for="username">Username</label>
+                        <div class="input-wrapper">
+                            <input type="text" name="username" id="username" placeholder="Введіть ваш нікнейм" required>
+                        </div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="email">Пошта</label>
+                        <div class="input-wrapper">
+                            <input type="email" name="email" id="email" placeholder="Введіть вашу електронну пошту" required>
+                        </div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="password">Пароль</label>
+                        <div class="input-wrapper">
+                            <input type="password" name="password" id="password" placeholder="Створіть надійний пароль" required>
+                        </div>
+                    </div>
+                    
+                    <button type="submit" class="form-submit">🚀 Почати пригоду!</button>
+                </form>
+                
+                <div class="form-footer">
+                    <p>Вже є акаунт? <a href="{{ url_for('login') }}">Я вже маю акаунт</a></p>
+                    <a href="{{ url_for('index') }}" class="back-link">← Повернутися на головну</a>
+                </div>
+            </div>
+        </div>
+    </div>
 </body>
 </html>

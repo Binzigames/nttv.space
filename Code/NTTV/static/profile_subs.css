@@ -1,0 +1,365 @@
+.subscriptions-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 2rem;
+    animation: fadeInUp 1s ease-out;
+}
+
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(30px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.page-header {
+    background: linear-gradient(135deg, 
+        rgba(138, 43, 226, 0.15) 0%, 
+        rgba(0, 255, 65, 0.15) 50%,
+        rgba(255, 20, 147, 0.15) 100%);
+    border: 2px solid var(--concrete-gray);
+    border-radius: 20px;
+    padding: 3rem;
+    text-align: center;
+    margin-bottom: 3rem;
+    position: relative;
+    overflow: hidden;
+    backdrop-filter: blur(15px);
+    box-shadow: 
+        0 15px 35px rgba(0, 0, 0, 0.3),
+        inset 0 1px 0 rgba(255, 255, 255, 0.1);
+}
+
+.page-title {
+    font-family: 'Staatliches', cursive;
+    font-size: clamp(2.5rem, 5vw, 4rem);
+    color: var(--neon-white);
+    text-transform: uppercase;
+    letter-spacing: 4px;
+    margin-bottom: 1rem;
+    text-shadow: 
+        2px 2px 0px var(--toxic-purple),
+        0 0 20px rgba(138, 43, 226, 0.5);
+    animation: titlePulse 3s ease-in-out infinite;
+}
+
+@keyframes titlePulse {
+    0%, 100% {
+        text-shadow: 
+            2px 2px 0px var(--toxic-purple),
+            0 0 20px rgba(138, 43, 226, 0.5);
+    }
+    50% {
+        text-shadow: 
+            2px 2px 0px var(--toxic-purple),
+            0 0 30px rgba(138, 43, 226, 0.7),
+            0 0 40px rgba(0, 255, 65, 0.3);
+    }
+}
+
+.page-subtitle {
+    color: var(--dirty-white);
+    font-size: 1.2rem;
+    opacity: 0.9;
+    font-family: 'JetBrains Mono', monospace;
+}
+
+.header-nav {
+    display: flex;
+    justify-content: center;
+    gap: 2rem;
+    margin-top: 2rem;
+    flex-wrap: wrap;
+}
+
+.nav-link {
+    color: var(--toxic-purple);
+    text-decoration: none;
+    font-weight: 700;
+    font-family: 'JetBrains Mono', monospace;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    transition: all 0.3s ease;
+    padding: 0.8rem 1.5rem;
+    border: 2px solid var(--toxic-purple);
+    border-radius: 8px;
+    background: rgba(0, 128, 255, 0.1);
+    position: relative;
+    overflow: hidden;
+}
+
+.nav-link::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.1), transparent);
+    transition: left 0.5s ease;
+}
+
+.nav-link:hover::before {
+    left: 100%;
+}
+
+.nav-link:hover {
+    background: var(--toxic-purple);
+    color: var(--pitch-black);
+    text-shadow: none;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 15px rgba(0, 128, 255, 0.4);
+}
+
+.forum-list {
+    display: grid;
+    gap: 2rem;
+}
+
+.forum-card {
+    background: linear-gradient(135deg, 
+        rgba(26, 26, 26, 0.95) 0%, 
+        rgba(44, 44, 44, 0.8) 50%, 
+        rgba(26, 26, 26, 0.95) 100%);
+    border: 2px solid var(--concrete-gray);
+    border-radius: 15px;
+    padding: 2.5rem;
+    position: relative;
+    overflow: hidden;
+    transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    backdrop-filter: blur(15px);
+    box-shadow: 
+        0 10px 30px rgba(0, 0, 0, 0.4),
+        inset 0 1px 0 rgba(255, 255, 255, 0.1);
+}
+
+.forum-title {
+    font-family: 'Staatliches', cursive;
+    font-size: clamp(1.5rem, 3vw, 2.2rem);
+    color: var(--neon-white);
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    margin-bottom: 1rem;
+    text-shadow: 0 0 15px rgba(255, 255, 255, 0.3);
+}
+
+.forum-stats {
+    display: flex;
+    gap: 2rem;
+    margin-bottom: 1.5rem;
+    flex-wrap: wrap;
+}
+
+.stat-item {
+    background: rgba(26, 26, 26, 0.8);
+    border: 1px solid var(--concrete-gray);
+    border-radius: 8px;
+    padding: 0.8rem 1.2rem;
+    transition: all 0.3s ease;
+}
+
+.stat-item:hover {
+    border-color: var(--toxic-purple);
+    background: rgba(138, 43, 226, 0.1);
+}
+
+.stat-label {
+    color: var(--toxic-purple);
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.8rem;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    margin-bottom: 0.3rem;
+}
+
+.stat-value {
+    color: var(--neon-white);
+    font-size: 1.1rem;
+    font-weight: 700;
+}
+
+.forum-description {
+    color: var(--dirty-white);
+    font-size: 1rem;
+    line-height: 1.6;
+    margin-bottom: 1.5rem;
+    opacity: 0.9;
+}
+
+.forum-author {
+    color: var(--toxic-green);
+    font-family: 'JetBrains Mono', monospace;
+    font-weight: 600;
+    margin-bottom: 2rem;
+    font-size: 0.9rem;
+}
+
+.forum-author strong {
+    color: var(--neon-white);
+}
+
+.forum-actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1rem;
+    align-items: center;
+}
+
+.action-button {
+    background: linear-gradient(135deg, 
+        var(--toxic-purple), 
+        var(--electric-blue));
+    color: var(--neon-white);
+    border: none;
+    padding: 0.8rem 1.5rem;
+    font-weight: 700;
+    font-family: 'JetBrains Mono', monospace;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: all 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    font-size: 0.85rem;
+    position: relative;
+    overflow: hidden;
+    box-shadow: 0 4px 15px rgba(138, 43, 226, 0.4);
+    text-decoration: none;
+    display: inline-block;
+}
+
+.action-button::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+    transition: left 0.5s ease;
+}
+
+.action-button:hover::before {
+    left: 100%;
+}
+
+.action-button:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 25px rgba(138, 43, 226, 0.6);
+}
+
+.action-button.success {
+    background: linear-gradient(135deg, var(--toxic-green), var(--electric-blue));
+    box-shadow: 0 4px 15px rgba(0, 255, 65, 0.4);
+}
+
+.action-button.success:hover {
+    box-shadow: 0 8px 25px rgba(0, 255, 65, 0.6);
+}
+
+.action-button.danger {
+    background: linear-gradient(135deg, var(--blood-red), var(--graffiti-pink));
+    box-shadow: 0 4px 15px rgba(255, 0, 64, 0.4);
+}
+
+.action-button.danger:hover {
+    box-shadow: 0 8px 25px rgba(255, 0, 64, 0.6);
+}
+
+.action-button.warning {
+    background: linear-gradient(135deg, var(--underground-orange), var(--neon-yellow));
+    box-shadow: 0 4px 15px rgba(255, 140, 0, 0.4);
+}
+
+.action-button.warning:hover {
+    box-shadow: 0 8px 25px rgba(255, 140, 0, 0.6);
+}
+
+.admin-menu {
+    margin-top: 1.5rem;
+    padding-top: 1.5rem;
+    border-top: 2px solid var(--concrete-gray);
+    display: flex;
+    gap: 1rem;
+    flex-wrap: wrap;
+}
+
+.login-prompt {
+    color: var(--dirty-white);
+    font-style: italic;
+    font-size: 0.9rem;
+}
+
+.login-prompt a {
+    color: var(--toxic-purple);
+    text-decoration: none;
+    font-weight: 700;
+}
+
+.login-prompt a:hover {
+    color: var(--electric-blue);
+    text-shadow: 0 0 10px rgba(0, 128, 255, 0.5);
+}
+
+.empty-state {
+    text-align: center;
+    padding: 4rem 2rem;
+    background: linear-gradient(135deg, 
+        rgba(44, 44, 44, 0.6), 
+        rgba(26, 26, 26, 0.8));
+    border: 2px dashed var(--concrete-gray);
+    border-radius: 15px;
+    margin-top: 2rem;
+}
+
+.empty-state p {
+    color: var(--dirty-white);
+    font-size: 1.2rem;
+    margin-bottom: 1rem;
+    opacity: 0.8;
+}
+
+.empty-state .subtitle {
+    color: var(--toxic-purple);
+    font-style: italic;
+    font-size: 1rem;
+}
+
+@media (max-width: 768px) {
+    .subscriptions-container {
+        padding: 1rem;
+    }
+    
+    .page-header {
+        padding: 2rem 1.5rem;
+    }
+    
+    .forum-card {
+        padding: 1.5rem;
+    }
+    
+    .forum-stats {
+        flex-direction: column;
+        gap: 0.5rem;
+    }
+    
+    .forum-actions {
+        flex-direction: column;
+        align-items: stretch;
+    }
+    
+    .action-button {
+        text-align: center;
+        width: 100%;
+    }
+    
+    .header-nav {
+        flex-direction: column;
+        gap: 1rem;
+    }
+}
+
+/* forum-card */
