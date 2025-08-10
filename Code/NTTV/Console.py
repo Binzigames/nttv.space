@@ -16,8 +16,7 @@ from colorama import Fore
 #> file sys.
 USERS_FILE = 'DB/users.json'
 FORUMS_FILE = 'DB/forums.json'
-FORUMS_FILE = 'DB/cfg.json'
-REPORTS_FILE = 'reports.json'
+REPORTS_FILE = 'DB/reports.json'
 
 #> badges
 BADGES = {
@@ -32,7 +31,7 @@ BADGES = {
 
 #>stuff
 Clog = False
-port = "9999"
+port = "9998"
 
 #-------------> databases defs
 #> reports load
