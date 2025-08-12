@@ -1,14 +1,24 @@
-from colorama import Fore
+#   nttv.space.console  #
+#########################
+#  by Porko c.(2025)    #
+#-------------> importing
+#python
 import sys
 import time
 import json
 import os
 import socket
+
+#other
+from colorama import Fore
 #-------------> databases
 # database bools
+#> file sys.
 USERS_FILE = 'DB/users.json'
 FORUMS_FILE = 'DB/forums.json'
-FORUMS_FILE = 'DB/cfg.json'
+REPORTS_FILE = 'reports.json'
+
+#> badges
 BADGES = {
     "new_user": "Новачок",
     "early_bird": "Рання пташка",
@@ -18,8 +28,24 @@ BADGES = {
     "ban":"Бан",
     "verf":"Верифіковано"
 }
+
+#>stuff
 Clog = False
 port = "9999"
+
+#-------------> databases defs
+#> reports load
+def load_reports():
+    if os.path.exists(REPORTS_FILE):
+        with open(REPORTS_FILE, 'r') as f:
+            return json.load(f)
+    return {}
+
+
+def save_reports(reports):
+    with open(REPORTS_FILE, 'w') as f:
+        json.dump(reports, f, indent=4)
+
 def print_server_ip():
     try:
         hostname = socket.gethostname()
@@ -164,9 +190,10 @@ def handle_console():
 
 
 def print_help():
+    print_info("help menu :")
     print_info("Available commands:         /       func.:        ")
     print_info("start                                - Start the server")
-    print_info("reload                               - Reload the server")
+    print_info("debuger                              - turns on off debuger")
     print_info("assign_badge <uid> <badge_name>      - Assign a badge to a user")
     print_info("delete_user <uid>                    - delete user data")
     print_info("exit                                 - Exit the console")

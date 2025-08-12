@@ -1,36 +1,49 @@
+#   nttv.space.core  #
+######################
+#  by Porko c.(2025) #
+#-------------> importing
+#> flask
 from flask import Flask, render_template, request, redirect, url_for, session , send_from_directory
-import time
 from flask_socketio import SocketIO
+from werkzeug.security import generate_password_hash, check_password_hash
+
+#> python
+import time
 import requests
-import threading
 import os
 import sys
-from colorama import init , Fore
-from werkzeug.security import generate_password_hash, check_password_hash
-from waitress import serve
 import uuid
 import json
-from Console import *
+import threading
 import random
+
+#> other
 import asyncio
+from colorama import init , Fore
+from waitress import serve
 
-
-init(autoreset=True)
+#> nttv files
+from Console import *
+#from discord_bot import announce_stream, run_discord_bot, bot
 
 # ------------->bools
-# >app main
+
+# > Flask stuff
+init(autoreset=True)
 app = Flask(__name__)
 app.secret_key =  os.environ.get("SECRET_KEY", os.urandom(24))
 
+# > Server options
 ip = "0.0.0.0"
 port = "9999"
-
+core = "[CORE]"
 socketio = SocketIO(app)
 
+# > Threading
 server_thread = None
 http_server = None
 
-core = "[CORE]"
+
 #------------->start up
 @app.before_request
 def check_ban_status():
@@ -41,9 +54,6 @@ def check_ban_status():
             if request.endpoint not in ('ban', 'favicon'):
                 return redirect(url_for('ban'))
 
-@app.route('/ban')
-def ban():
-    return render_template('ban.html'), 403
 
 # >іконка
 @app.route('/favicon.ico')
@@ -61,6 +71,10 @@ def datetimeformat(value):
 
 
 # ------------->pages
+@app.route('/ban')
+def ban():
+    return render_template('ban.html'), 403
+
 @app.route('/')
 def index():
     forums = load_forums()
@@ -256,7 +270,6 @@ def profile():
             is_mod = "mod" in user.get('badges', [])
             return render_template("profile.html", user=user , is_mod= is_mod)
     return redirect(url_for('register'))
-
 @app.route('/user/<uid>')
 def view_user_profile(uid):
     users = load_users()
@@ -397,20 +410,6 @@ def login():
             return render_template('login.html', error="Invalid credentials")
 
     return render_template('login.html')
-# ------------->moderating
-REPORTS_FILE = 'reports.json'
-
-
-def load_reports():
-    if os.path.exists(REPORTS_FILE):
-        with open(REPORTS_FILE, 'r') as f:
-            return json.load(f)
-    return {}
-
-
-def save_reports(reports):
-    with open(REPORTS_FILE, 'w') as f:
-        json.dump(reports, f, indent=4)
 
 
 @app.route('/forums/moderate/<forum_id>', methods=['GET', 'POST'])
@@ -471,16 +470,17 @@ def moderate_forum(forum_id):
             forum['is_live'] = True
             save_forums(forums)
 
-            author_name = users.get(forum['author_id'], {}).get('username', 'Невідомий')
-            forum_url = f"http://nttv.space/forums/view/{forum_id}"
-            stream_url = forum.get('youtube_stream_url') or forum.get('kick_stream_url') or forum_url
+            #author_name = users.get(forum['author_id'], {}).get('username', 'Невідомий')
+            #forum_url = f"http://nttv.space/forums/view/{forum_id}"
+            #stream_url = forum.get('youtube_stream_url') or forum.get('kick_stream_url') or forum_url
 
-            def run_announce():
-                loop = asyncio.new_event_loop()
-                asyncio.set_event_loop(loop)
-                loop.close()
+            #def run_announce():
+                #loop = asyncio.new_event_loop()
+                #asyncio.set_event_loop(loop)
+                #loop.run_until_complete(announce_stream(forum['name'], author_name, forum_url, stream_url))
+                #loop.close()
 
-            threading.Thread(target=run_announce, daemon=True).start()
+            #threading.Thread(target=run_announce, daemon=True).start()
 
             return redirect(url_for('moderate_forum', forum_id=forum_id))
 
@@ -672,15 +672,30 @@ class ServerThread(threading.Thread):
         serve(self.app, host=ip, port=port)
         print(core + " Server started")
 
-    def shutdown(self):
-        print(core + " Server shutting down...")
-
-
 def start():
-    app.run(debug=True)
+    global server_thread
+
+    #print(core + " Launching Discord bot thread…")
+    #threading.Thread(target=run_discord_bot, daemon=True).start()
+
+    print(core + " Starting Flask server…")
+    if server_thread and server_thread.is_alive():
+        print(core + " Server is already running.")
+        return
+
+    try:
+        server_thread = ServerThread(app)
+        server_thread.start()
+        print(core + " Server started successfully.")
+    except Exception as e:
+        print(core + f" Error starting server: {e}")
+    handle_console()
+
+
 
 # ------------->console
 
 # >run
-if __name__ == "__main__":
-    start()
+#if __name__ == "__main__":
+    #start()
+# uncomment for local use
