@@ -16,6 +16,7 @@ import uuid
 import json
 import threading
 import random
+from datetime import timedelta
 
 #> other
 import asyncio
@@ -32,6 +33,7 @@ from Console import *
 init(autoreset=True)
 app = Flask(__name__)
 app.secret_key =  os.environ.get("SECRET_KEY", os.urandom(24))
+app.permanent_session_lifetime = timedelta(hours=24)
 
 # > Server options
 ip = "0.0.0.0"

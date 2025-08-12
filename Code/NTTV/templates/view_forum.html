@@ -4,8 +4,6 @@
     <meta charset="UTF-8">
     <title>{{ forum.name }} - NTTV</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-1119387653458763"
-     crossorigin="anonymous"></script>
     <link rel="icon" href="{{ url_for('static', filename='favicon.ico') }}" type="image/x-icon">
     <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
     <link href="https://fonts.googleapis.com/css2?family=Staatliches:wght@400&family=JetBrains+Mono:wght@300;400;600;700&display=swap" rel="stylesheet">
@@ -455,6 +453,7 @@ section.post h3 {
         <p class="subtitle_s">NextTheme.TV – {{ forum.name }}</p>
         <nav>
             <a href="{{ url_for('forums') }}">Назад до тем</a>
+            <a href="{{ url_for('moderate_forum', forum_id=forum.id) }}">Панель керування</a>
         </nav>
     </header>
 
