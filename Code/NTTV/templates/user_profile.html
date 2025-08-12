@@ -3,33 +3,10 @@
 <head>
     <meta charset="UTF-8">
     <title>Профіль користувача</title>
-    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
-      <link rel="icon" href="{{ url_for('static', filename='favicon.ico') }}" type="image/x-icon">
-    <style>
-        .profile-container {
-            display: flex;
-            gap: 32px;
-            flex-wrap: wrap;
-        }
-        .left-column, .right-column {
-            flex: 1;
-            min-width: 300px;
-        }
-        .badges {
-            margin-top: 12px;
-            display: flex;
-            flex-wrap: wrap;
-        }
-        .badge {
-            background-color: #a1a1aa;
-            color: white;
-            border-radius: 12px;
-            padding: 6px 16px;
-            margin: 4px;
-            font-size: 14px;
-            font-weight: bold;
-        }
-    </style>
+    <link rel="stylesheet" href="{{ url_for('static', filename='global.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='user_profile.css') }}">
+    <link rel="icon" href="{{ url_for('static', filename='favicon.ico') }}" type="image/x-icon">
+    <link href="https://fonts.googleapis.com/css2?family=Staatliches:wght@400&family=JetBrains+Mono:wght@300;400;600;700&display=swap" rel="stylesheet">
 </head>
 <body>
     <header>
