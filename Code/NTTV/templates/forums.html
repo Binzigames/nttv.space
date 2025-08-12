@@ -18,13 +18,13 @@
           <div class="card create-forum-card">
               {% if 'user_id' in session %}
                   <section class="create-forum">
-                      <h2>Створення тем</h2>
+                      <h2>Створення теми</h2>
                       <form action="{{ url_for('forums') }}" method="POST">
                           <label for="forum_name">Назва Теми:</label>
                           <input type="text" id="forum_name" name="forum_name" required />
                           <label for="forum_description">Опис Теми:</label>
                           <input type="text" id="forum_description" name="forum_description" required />
-                          <button type="submit" class="fix_btn">Створити Теми</button>
+                          <button type="submit" class="fix_btn">Створити Тему</button>
                       </form>
                   </section>
                   <p class="subtitle_s">вагаєтеся чи створювати тему? чи є запитання? звертайтеся до нашого :</p>
