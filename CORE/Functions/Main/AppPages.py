@@ -11,7 +11,7 @@ def load():
     @app.before_request
     def check_ban_status():
         if 'user_id' in session:
-            users = load_users()
+            users = Console.load_users()
             user = users.get(session['user_id'])
             if user and "ban" in user.get('badges', []):
                 if request.endpoint not in ('ban', 'favicon'):
@@ -37,7 +37,7 @@ def load():
 
     @app.route('/')
     def index():
-        forums = load_forums()
+        forums = Console.load_forums()
 
         all_topics = list(forums.values())
         top_topic = random.choice(all_topics) if all_topics else None
@@ -46,7 +46,7 @@ def load():
 
     # >forum
     def get_subscriber_count(forum_id):
-        users = load_users()
+        users = Console.load_users()
         count = sum(1 for user in users.values() if forum_id in user['subs'])
         return count
 
@@ -60,7 +60,7 @@ def load():
                 return redirect(url_for('login'))
 
             user_id = session['user_id']
-            forums = load_forums()
+            forums = Console.load_forums()
 
             forum_id = str(uuid.uuid4())
 
@@ -78,11 +78,11 @@ def load():
                 'kick_stream_url': '',
             }
 
-            save_forums(forums)
+            Console.save_forums(forums)
             return redirect(url_for('forums'))
 
-        forums = load_forums()
-        users = load_users()
+        forums = Console.load_forums()
+        users = Console.load_users()
 
         sorted_forums = sorted(forums.items(), key=lambda x: x[1]['reputation'], reverse=True)
 
@@ -102,7 +102,7 @@ def load():
         user_id = session['user_id']
         vote_type = request.form.get('vote')
 
-        forums = load_forums()
+        forums = Console.load_forums()
         if forum_id not in forums:
             return "Forum not found", 404
 
@@ -126,7 +126,7 @@ def load():
                     forum['reputation'] += 1
 
         forum['votes'] = votes
-        save_forums(forums)
+        Console.save_forums(forums)
 
         return redirect(url_for('forums', show_menu=forum_id))
 
@@ -136,8 +136,8 @@ def load():
             return redirect(url_for('login'))
 
         user_id = session['user_id']
-        users = load_users()
-        forums = load_forums()
+        users = Console.load_users()
+        forums = Console.load_forums()
 
         if forum_id not in forums:
             return "Forum not found", 404
@@ -154,8 +154,8 @@ def load():
         if user_id not in forum.get('subscribers', []):
             forum.setdefault('subscribers', []).append(user_id)
 
-        save_users(users)
-        save_forums(forums)
+        Console.save_users(users)
+        Console.save_forums(forums)
 
         return redirect(url_for('forums'))
 
@@ -165,8 +165,8 @@ def load():
             return redirect(url_for('login'))
 
         user_id = session['user_id']
-        users = load_users()
-        forums = load_forums()
+        users = Console.load_users()
+        forums = Console.load_forums()
 
         if forum_id not in forums:
             return "Forum not found", 404
@@ -184,8 +184,8 @@ def load():
             forum['subscribers'].remove(user_id)
 
         # Збереження змін
-        save_users(users)
-        save_forums(forums)
+        Console.save_users(users)
+        Console.save_forums(forums)
 
         return redirect(url_for('forums'))
 
@@ -195,19 +195,19 @@ def load():
             return redirect(url_for('login'))
 
         user_id = session['user_id']
-        forums = load_forums()
+        forums = Console.load_forums()
 
         if forum_id not in forums:
             return "Forum not found", 404
 
         forum = forums[forum_id]
-        user = load_users().get(user_id)
+        user = Console.load_users().get(user_id)
 
         if forum['author_id'] != user_id and "mod" not in user.get('badges', []):
             return "You are not the author of this forum or a moderator", 403
 
         del forums[forum_id]
-        save_forums(forums)
+        Console.save_forums(forums)
 
         return redirect(url_for('forums'))
 
@@ -215,18 +215,18 @@ def load():
     @app.route('/profile')
     def profile():
         if 'user_id' in session:
-            users = load_users()
+            users = Console.load_users()
             user = users.get(session['user_id'])
             if user:
-                user['badges'] = get_ukrainian_badges(user)
+                user['badges'] = Console.get_ukrainian_badges(user)
                 is_mod = "mod" in user.get('badges', [])
                 return render_template("profile.html", user=user, is_mod=is_mod)
         return redirect(url_for('register'))
 
     @app.route('/user/<uid>')
     def view_user_profile(uid):
-        users = load_users()
-        forums = load_forums()
+        users = Console.load_users()
+        forums = Console.load_forums()
 
         user = users.get(uid)
         if not user:
@@ -240,7 +240,7 @@ def load():
         }
 
         # Перекладаємо бейджі тут
-        translated_badges = get_ukrainian_badges(user)
+        translated_badges = Console.get_ukrainian_badges(user)
 
         return render_template(
             'user_profile.html',
@@ -252,8 +252,8 @@ def load():
     @app.route('/profile_subs')
     def profile_subs():
         if 'user_id' in session:
-            users = load_users()
-            forums = load_forums()
+            users = Console.load_users()
+            forums = Console.load_forums()
             user = users.get(session['user_id'])
 
             if user:
@@ -278,7 +278,7 @@ def load():
             if not data.get('username') or not data.get('email') or not data.get('password'):
                 return "Missing fields", 400
 
-            users = load_users()
+            users = Console.load_users()
             uid = str(uuid.uuid4())
             if data['email'] in [user['email'] for user in users.values()]:
                 return "Email already in use", 400
@@ -298,9 +298,9 @@ def load():
             }
 
             # Assign the "new_user" badge upon registration
-            assign_badge(users[user_id], "new_user")
-            print_user_info("new user (writed to data) ", uid)
-            save_users(users)
+            Console.assign_badge(users[user_id], "new_user")
+            Console.print_user_info("new user (writed to data) ", uid)
+            Console.save_users(users)
             session['user_id'] = user_id
             return redirect(url_for('index'))
 
@@ -311,7 +311,7 @@ def load():
         if 'user_id' not in session:
             return redirect(url_for('login'))
 
-        users = load_users()
+        users = Console.load_users()
         user = users.get(session['user_id'])
 
         if not user:
@@ -325,7 +325,7 @@ def load():
         if d_gmail is not None:
             user['d_gmail'] = d_gmail
 
-        save_users(users)
+        Console.save_users(users)
         return redirect(url_for('profile'))
 
     # >API enter
@@ -336,7 +336,7 @@ def load():
             email = request.form['email']
             password = request.form['password']
 
-            users = load_users()
+            users = Console.load_users()
 
             # Search for the user by email
             for user_id, user_data in users.items():
@@ -349,13 +349,13 @@ def load():
 
                 user['login_count'] = user.get('login_count', 0) + 1
                 if user['login_count'] > 10:
-                    assign_badge(user, "frequent_user")
+                    Console.assign_badge(user, "frequent_user")
 
-                save_users(users)
-                print_user_info("user logined", user_id)
+                Console.save_users(users)
+                Console.print_user_info("user logined", user_id)
                 return redirect(url_for('profile'))
             else:
-                print_warning("somebody trying to login (fail trap)")
+                Console.print_warning("somebody trying to login (fail trap)")
                 return render_template('login.html', error="Invalid credentials")
 
         return render_template('login.html')
@@ -366,8 +366,8 @@ def load():
             return redirect(url_for('login'))
 
         user_id = session['user_id']
-        forums = load_forums()
-        users = load_users()
+        forums = Console.load_forums()
+        users = Console.load_users()
 
         if forum_id not in forums:
             return "Forum not found", 404
@@ -390,19 +390,19 @@ def load():
             if action == 'edit':
                 forum['name'] = request.form.get('forum_name') or forum['name']
                 forum['description'] = request.form.get('forum_description') or forum['description']
-                save_forums(forums)
+                Console.save_forums(forums)
                 return redirect(url_for('moderate_forum', forum_id=forum_id))
 
             elif action == 'delete':
                 del forums[forum_id]
-                save_forums(forums)
+                Console.save_forums(forums)
                 return redirect(url_for('forums'))
 
             elif action == 'report':
                 report_uid = request.form.get('report_uid')
                 reason = request.form.get('reason', '')
                 if report_uid:
-                    reports = load_reports()
+                    reports = Console.load_reports()
                     report_id = str(uuid.uuid4())
                     reports[report_id] = {
                         'forum_id': forum_id,
@@ -411,11 +411,11 @@ def load():
                         'reason': reason,
                         'timestamp': time.time()
                     }
-                    save_reports(reports)
+                    Console.save_reports(reports)
                 return redirect(url_for('moderate_forum', forum_id=forum_id))
             elif action == 'start_stream':
                 forum['is_live'] = True
-                save_forums(forums)
+                Console.save_forums(forums)
 
                 # author_name = users.get(forum['author_id'], {}).get('username', 'Невідомий')
                 # forum_url = f"http://nttv.space/forums/view/{forum_id}"
@@ -435,14 +435,14 @@ def load():
 
             elif action == 'stop_stream':
                 forum['is_live'] = False
-                save_forums(forums)
+                Console.save_forums(forums)
                 return redirect(url_for('moderate_forum', forum_id=forum_id))
 
             elif action == 'set_kick_nickname':
                 kick_nickname = request.form.get('kick_nickname')
                 if kick_nickname:
                     forum['kick_nickname'] = kick_nickname
-                    save_forums(forums)
+                    Console.save_forums(forums)
                 return redirect(url_for('moderate_forum', forum_id=forum_id))
             elif action == 'update_stream_links':
                 youtube_url = request.form.get('youtube_stream_url', '').strip()
@@ -450,7 +450,7 @@ def load():
 
                 forum['youtube_stream_url'] = youtube_url
                 forum['kick_stream_url'] = kick_url
-                save_forums(forums)
+                Console.save_forums(forums)
                 return redirect(url_for('moderate_forum', forum_id=forum_id))
 
         subscriber_count = len(forum.get('subscribers', []))
@@ -467,8 +467,8 @@ def load():
         if 'user_id' not in session:
             return redirect(url_for('login'))
 
-        forums = load_forums()
-        users = load_users()
+        forums = Console.load_forums()
+        users = Console.load_users()
 
         if forum_id not in forums:
             return "Форум не знайдено", 404
@@ -483,7 +483,7 @@ def load():
                 if user_id == forum['author_id'] or 'mod' in user.get('badges', []):
                     if 0 <= index < len(forum.get('messages', [])):
                         del forum['messages'][index]
-                        save_forums(forums)
+                        Console.save_forums(forums)
                 return redirect(url_for('view_forum', forum_id=forum_id))
 
             message_text = request.form.get('message')
@@ -494,7 +494,7 @@ def load():
                     'timestamp': time.time()
                 }
                 forum.setdefault('messages', []).append(message)
-                save_forums(forums)
+                Console.save_forums(forums)
                 return redirect(url_for('view_forum', forum_id=forum_id))
 
         messages = [
@@ -511,8 +511,8 @@ def load():
 
     @app.route('/forums/<forum_id>/chat', methods=['GET', 'POST'])
     def forum_chat(forum_id):
-        forums = load_forums()
-        users = load_users()
+        forums = Console.load_forums()
+        users = Console.load_users()
 
         if forum_id not in forums:
             return "Форум не знайдено", 404
@@ -528,7 +528,7 @@ def load():
                     'text': message_text,
                     'timestamp': time.strftime('%H:%M %Y-%m-%d', time.localtime())
                 })
-                save_forums(forums)
+                Console.save_forums(forums)
                 return redirect(url_for('forum_chat', forum_id=forum_id))
 
         messages = [
@@ -544,8 +544,8 @@ def load():
 
     @app.route('/forums/<forum_id>/get_messages')
     def get_forum_messages(forum_id):
-        forums = load_forums()
-        users = load_users()
+        forums = Console.load_forums()
+        users = Console.load_users()
 
         if forum_id not in forums:
             return "Форум не знайдено", 404
@@ -574,7 +574,7 @@ def load():
             return redirect(url_for('login'))
 
         user_id = session['user_id']
-        users = load_users()
+        users = Console.load_users()
         user = users.get(user_id)
 
         if "mod" not in user.get('badges', []):
@@ -588,16 +588,16 @@ def load():
             badge_name = request.form.get('badge')
 
             if action == 'assign_badge':
-                assign_badge_to_user(target_uid, badge_name)
+                Console.assign_badge_to_user(target_uid, badge_name)
                 message = f"Badge '{badge_name}' assigned to user with UID {target_uid}."
             elif action == 'delete_user':
-                delete_user_account(target_uid)
+                Console.delete_user_account(target_uid)
                 message = f"User with UID {target_uid} deleted."
 
-        reports = load_reports()
+        reports = Console.load_reports()
 
         return render_template('mod_page.html',
                                users=users,
-                               badges=BADGES,
+                               badges=DataStrStatic.BADGES,
                                reports=reports,
                                message=message)

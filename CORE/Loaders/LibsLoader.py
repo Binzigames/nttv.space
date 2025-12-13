@@ -16,14 +16,12 @@ import uuid
 import json
 import threading
 import random
+import socket
 from datetime import timedelta
 
 #> other
 import asyncio
 from colorama import init , Fore
 from waitress import serve
-
-#> nttv files
-from OLD.NTTV.Console import *
 ######################
-#use to import libs to site and optimaze loading
+#use to import libs to site and optimize loading
