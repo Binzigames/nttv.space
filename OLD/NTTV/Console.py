@@ -16,7 +16,6 @@ from colorama import Fore
 #> file sys.
 USERS_FILE = 'DB/users.json'
 FORUMS_FILE = 'DB/forums.json'
-FORUMS_FILE = 'DB/cfg.json'
 REPORTS_FILE = 'reports.json'
 
 #> badges

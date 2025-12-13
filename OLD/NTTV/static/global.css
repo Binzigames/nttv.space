@@ -1,0 +1,79 @@
+/* global.css */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+:root {
+    --neon-white: #ffffff;
+    --toxic-purple: #8a2be2;
+    --blood-red: #ff0040;
+    --electric-blue: #0080ff;
+    --toxic-green: #00ff41;
+    --neon-yellow: #ffff00;
+    --concrete-gray: #2c2c2c;
+    --rust-brown: #8b4513;
+    --pitch-black: #0d0d0d;
+    --dirty-white: #f0f0f0;
+    --graffiti-pink: #ff1493;
+    --underground-orange: #ff8c00;
+    
+    --color-bg: var(--pitch-black);
+    --color-surface: #1a1a1a;
+    --color-primary: var(--neon-white);
+    --color-accent: var(--toxic-purple);
+    --radius: 8px;
+    --shadow: 0 8px 25px rgba(0,0,0,0.4);
+}
+
+body {
+    font-family: 'JetBrains Mono', monospace;
+    background: var(--pitch-black);
+    color: var(--dirty-white);
+    overflow-x: hidden;
+    line-height: 1.4;
+    background-image: 
+        radial-gradient(circle at 25% 25%, rgba(138, 43, 226, 0.1) 0%, transparent 50%),
+        radial-gradient(circle at 75% 75%, rgba(0, 255, 65, 0.1) 0%, transparent 50%),
+        url("data:image/svg+xml,%3Csvg width='40' height='40' viewBox='0 0 40 40' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='%23333' fill-opacity='0.05'%3E%3Cpath d='M0 0h40v40H0z'/%3E%3Cpath d='M20 20h20v20H20z'/%3E%3C/g%3E%3C/svg%3E");
+    position: relative;
+    animation: backgroundShift 20s ease-in-out infinite;
+}
+
+@keyframes backgroundShift {
+    0%, 100% {
+        background-position: 0% 0%, 100% 100%, 0 0;
+    }
+    50% {
+        background-position: 100% 100%, 0% 0%, 20px 20px;
+    }
+}
+
+body::before {
+    content: '';
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: 
+        repeating-linear-gradient(
+            0deg,
+            transparent,
+            transparent 2px,
+            rgba(138, 43, 226, 0.03) 2px,
+            rgba(138, 43, 226, 0.03) 4px
+        );
+    pointer-events: none;
+    z-index: 1000;
+}
+
+/* Enhanced Link Styles */
+a {
+    color: #fff;
+    text-decoration: none;
+    font-weight: 600;
+    transition: all 0.3s ease;
+    position: relative;
+}

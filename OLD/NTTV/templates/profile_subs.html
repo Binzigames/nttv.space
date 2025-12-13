@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>NTTV – Підписки</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='global.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='profile_subs.css') }}">
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-1119387653458763"
+         crossorigin="anonymous"></script>
+    <link rel="icon" href="{{ url_for('static', filename='favicon.ico') }}" type="image/x-icon">
+</head>
+<body>
+    <div class="subscriptions-container">
+        <div class="page-header">
+            <h1 class="page-title">📺 NTTV Підписки</h1>
+            <p class="page-subtitle">NextTheme.TV – Платформа для тем, творчості та спілкування</p>
+            
+            <div class="header-nav">
+                <a href="{{ url_for('forums') }}" class="nav-link">🎯 Теми</a>
+                <a href="{{ url_for('profile') }}" class="nav-link">👤 Профіль</a>
+                <a href="{{ url_for('index') }}" class="nav-link">🏠 Головна</a>
+            </div>
+        </div>
+
+        <div class="forum-list">
+            {% if subs %}
+                {% for forum_id, forum in subs.items() %}
+                    <div class="forum-card">
+                        <h3 class="forum-title">{{ forum['name'] }}</h3>
+                        
+                        <div class="forum-stats">
+                            <div class="stat-item">
+                                <div class="stat-label">Підписники</div>
+                                <div class="stat-value">{{ get_subscriber_count(forum_id) }}</div>
+                            </div>
+                            <div class="stat-item">
+                                <div class="stat-label">Репутація</div>
+                                <div class="stat-value">{{ forum['reputation'] }}</div>
+                            </div>
+                        </div>
+
+                        <p class="forum-description">{{ forum['description'] }}</p>
+                        
+                        <div class="forum-author">
+                            <strong>Автор:</strong>
+                            {% set author = users.get(forum['author_id']) %}
+                            {{ author['username'] if author else 'Невідомий' }}
+                        </div>
+
+                        <div class="forum-actions">
+                            <a href="{{ url_for('view_forum', forum_id=forum_id) }}" class="action-button">
+                                🔍 Переглянути
+                            </a>
+
+                            {% if 'user_id' in session %}
+                                {% if session['user_id'] not in forum['subscribers'] %}
+                                    <form action="/forums/subscribe/{{ forum_id }}" method="POST" style="display: inline;">
+                                        <button type="submit" class="action-button success">
+                                            ➕ Підписатися
+                                        </button>
+                                    </form>
+                                {% else %}
+                                    <form action="/forums/unsubscribe/{{ forum_id }}" method="POST" style="display: inline;">
+                                        <button type="submit" class="action-button danger">
+                                            ➖ Відписатися
+                                        </button>
+                                    </form>
+                                {% endif %}
+
+                                {% if session['user_id'] == forum['author_id'] %}
+                                    <form action="/forums/moderate/{{ forum_id }}" method="GET" style="display: inline;">
+                                        <button type="submit" class="action-button warning">
+                                            ⚙️ Керувати
+                                        </button>
+                                    </form>
+                                {% endif %}
+                            {% else %}
+                                <p class="login-prompt">
+                                    Для підписки необхідно <a href="{{ url_for('login') }}">увійти</a>
+                                </p>
+                            {% endif %}
+                        </div>
+
+                        {% if show_menu == forum_id %}
+                            <div class="admin-menu">
+                                {% if session['user_id'] == forum['author_id'] or 'admin' in session.get('roles', []) %}
+                                    <form action="/forums/delete/{{ forum_id }}" method="POST" 
+                                          onsubmit="return confirm('Ви впевнені, що хочете видалити цей форум?')" 
+                                          style="display: inline;">
+                                        <button type="submit" class="action-button danger">
+                                            🗑️ Видалити тему
+                                        </button>
+                                    </form>
+                                    <form action="/forums/edit/{{ forum_id }}" method="GET" style="display: inline;">
+                                        <button type="submit" class="action-button">
+                                            ✏️ Редагувати
+                                        </button>
+                                    </form>
+                                {% endif %}
+                            </div>
+                        {% endif %}
+                    </div>
+                {% endfor %}
+            {% else %}
+                <div class="empty-state">
+                    <p>Ви ще не підписані на жоден форум.</p>
+                    <p class="subtitle">Саме час це виправити...</p>
+                    <a href="{{ url_for('forums') }}" class="action-button success" style="margin-top: 1rem;">
+                        🚀 Знайти теми
+                    </a>
+                </div>
+            {% endif %}
+        </div>
+    </div>
+</body>
+</html>

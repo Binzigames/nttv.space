@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>NTTV – профіль</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='global.css') }}">
+  <link rel="stylesheet" href="{{ url_for('static', filename='components/header.css') }}">
+  <link rel="stylesheet" href="{{ url_for('static', filename='components/footer.css') }}">
+  <link rel="stylesheet" href="{{ url_for('static', filename='profile.css') }}">
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-1119387653458763"
+     crossorigin="anonymous"></script>
+  <link rel="icon" href="{{ url_for('static', filename='favicon.ico') }}" type="image/x-icon">
+</head>
+<body>
+  {% include "components/header.jinja" %}
+
+  <div class="profile-container">
+    <div class="profile-intro">
+      <p>Вся інформація про тебе тут</p>
+    </div>
+
+    <div class="profile-card">
+      <div class="profile-header">
+        <h1>Привіт, {{ user.username }}!</h1>
+        <div class="uid-badge">UID {{ user.uid }}</div>
+        <p class="email-info">📧 {{ user.email }}</p>
+      </div>
+
+      <div class="badges-section">
+        {% if user.badges %}
+          <h3 class="badges-title">Ваші бейджі:</h3>
+          <div class="badges-container">
+            {% for badge in user.badges %}
+              <div class="badge">{{ badge }}</div>
+            {% endfor %}
+          </div>
+        {% else %}
+          <p class="no-badges">У вас поки що немає бейджів.</p>
+        {% endif %}
+      </div>
+    </div>
+
+    <div class="settings-card">
+      <h2 class="settings-title">Налаштування профілю</h2>
+      <form method="POST" action="{{ url_for('update_user') }}">
+        <div class="form-group">
+          <label for="bio">Про себе (біо):</label>
+          <textarea id="bio" name="bio" rows="6" placeholder="Розкажіть щось цікаве про себе...">{{ user.bio }}</textarea>
+        </div>
+        
+        <div class="form-group">
+          <label for="d_gmail">Публічна пошта:</label>
+          <input type="email" id="d_gmail" name="d_gmail" value="{{ user.d_gmail }}" placeholder="your-public@email.com">
+        </div>
+
+        <div class="form-actions">
+          <a href="{{ url_for('view_user_profile', uid=session['user_id']) }}" class="profile-link">
+            👁 Переглянути мій акаунт
+          </a>
+          <button type="submit" class="update-btn">
+            💾 Оновити профіль
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  {% include "components/footer.jinja" %}
+</body>
+</html>

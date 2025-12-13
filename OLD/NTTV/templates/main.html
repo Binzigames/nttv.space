@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>NTTV – NEXTTHEMETV</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='global.css') }}">
+  <link rel="stylesheet" href="{{ url_for('static', filename='components/header.css') }}">
+  <link rel="stylesheet" href="{{ url_for('static', filename='components/footer.css') }}">
+  <link rel="stylesheet" href="{{ url_for('static', filename='main.css') }}">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&family=Staatliches&family=Permanent+Marker&display=swap" rel="stylesheet">
+</head>
+<body>
+  {% include "components/header.jinja" %}
+
+  <main class="main-grid">
+    <!-- Ліва панель -->
+    <div class="left-panel">
+      <section class="post welcome-post">
+        <div class="post-content">
+          <div class="post-header">
+            <h2>👋 Хто ми такі?</h2>
+          </div>
+          <h3>NTTV <span style="color: var(--graffiti-pink);">💜</span></h3>
+          <p>NTTV — це інноваційний ігровий портал для україномовних творців контенту, створений для об'єднання спільноти та підтримки творчості.</p>
+          <p>Тут ви можете ділитися своєю творчістю, знаходити однодумців та розвивати свої навички в дружньому середовищі.</p>
+          <p class="highlight-text">Слідкуйте за улюбленими творцями, надихайтеся новими ідеями та створюйте неймовірний контент разом з нами!</p>
+          <div class="post-decoration">
+            <div class="neon-line"></div>
+          </div>
+        </div>
+      </section>
+
+      <section class="post featured-post">
+        <div class="post-content">
+          <div class="post-header">
+            <h2>🌟 Можливо вам сподобається тема:</h2>
+            <div class="handwritten-note">HOT!</div>
+          </div>
+          <h3 class="topic-title">{{ top_topic.name }}</h3>
+          <p>{{ top_topic.description[:150] }}</p>
+          <div class="topic-stats">
+            <p class="subtitle_s reputation-badge">Реп: <span class="rep-number">{{ top_topic.reputation }}</span></p>
+          </div>
+          <a href="/forums/view/{{ top_topic.id }}" class="topic-link">Перейти до теми</a>
+        </div>
+      </section>
+
+      <section class="post resources-post">
+        <div class="post-content">
+          <div class="post-header">
+            <h2>📚 Офіційні ресурси NTTV</h2>
+            <div class="grunge-accent"></div>
+          </div>
+          <p class="resources-intro">🔗 Корисні посилання та інформаційні ресурси:</p>
+          <ul class="resources-list">
+            <li><a href="https://docs.google.com/document/d/1D3_-t8Nhd7-MKiRnXctxgexI1nBVyEr6cAERzAXqoIg/edit?usp=sharing">📄 Документація / Правила / Угода</a></li>
+            <li><a href="https://github.com/Binzigames/nttv.space">📚 GitHub репозиторій </a></li>
+            <li><a href="https://discord.gg/wnWV7FJ6Qf">💬 Діскорд: технічна підтримка</a></li>
+          </ul>
+        </div>
+      </section>
+    </div>
+
+    <!-- Права панель -->
+    <div class="right-panel">
+      <section class="post updates-post">
+        <div class="post-content">
+          <div class="post-header">
+            <h2>🚀 Оновлення</h2>
+            <div class="version-tag">v0.1.5</div>
+          </div>
+          <h3 class="update-title">Оновлення 0.1.5 вже тут! <span style="color: var(--neon-yellow);">🔧</span></h3>
+          <ul class="updates-list">
+            <li><span class="feature-icon">✨</span> Зміна часу релогу до 24 годин</li>
+            <li><span class="feature-icon">🔧</span> Відновленна функція рандомних тем</li>
+            <li><span class="feature-icon">🔧</span> Додані кнопки для зручнішого модерування</li>
+            <li><span class="feature-icon">🚀</span> та багато іншого!</li>
+
+          </ul>
+          <p class="subtitle_s release-date">📅 Дата релізу: <span class="date-highlight">12.08.2025</span></p>
+        </div>
+      </section>
+
+      <section class="post news-post">
+        <div class="post-content">
+          <div class="post-header">
+            <h2>📰 Новини спільноти</h2>
+            <div class="handwritten-note">NEWS</div>
+          </div>
+          <h3 class="news-title">Нові функції на горизонті!</h3>
+          <p>Відтепер сайт open source!  та досутпний на github</p>
+          <p class="subtitle_s expected-release">📅 Очікуваний реліз: <span class="coming-soon">Кінець серпня 2025</span></p>
+        </div>
+      </section>
+
+      <section class="post community-post">
+        <div class="post-content">
+          <div class="post-header">
+            <h2>🌟 NTTV — Разом творимо стильну реальність</h2>
+            <div class="community-badge">COMMUNITY</div>
+          </div>
+          <p class="community-intro">Приєднуйтесь до світу, де творчість має справжнє значення! <span style="color: var(--graffiti-pink);">🎨</span></p>
+          
+          <div class="user-section">
+            <h3>👥 Для користувачів:</h3>
+            <p>Знайомтесь з однодумцями, обговорюйте цікаві теми, діліться досвідом та отримуйте натхнення від інших учасників спільноти.</p>
+          </div>
+          
+          <div class="creator-section">
+            <h3>🎙️ Для творців:</h3>
+            <p>Отримуйте підтримку спільноти, показуйте свої роботи, знаходьте співавторів та розвивайте свої проекти в дружньому середовищі.</p>
+          </div>
+        </div>
+      </section>
+    </div>
+  </main>
+
+  {% include "components/footer.jinja" %}
+</body>
+</html>
+
+<!--topic-link-->

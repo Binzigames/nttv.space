@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="{{ url_for('static', filename='global.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='components/header.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='components/footer.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='forum.css') }}">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NTTV – Теми</title>
+    <link href="https://fonts.googleapis.com/css2?family=Permanent+Marker&family=Staatliches:wght@400&family=JetBrains+Mono:wght@400;700;900&display=swap" rel="stylesheet">
+</head>
+<body>
+  {% include "components/header.jinja" %}
+
+  <main class="main-layout">
+      <div class="sidebar">
+          <div class="card create-forum-card">
+              {% if 'user_id' in session %}
+                  <section class="create-forum">
+                      <h2>Створення теми</h2>
+                      <form action="{{ url_for('forums') }}" method="POST">
+                          <label for="forum_name">Назва Теми:</label>
+                          <input type="text" id="forum_name" name="forum_name" required />
+                          <label for="forum_description">Опис Теми:</label>
+                          <input type="text" id="forum_description" name="forum_description" required />
+                          <button type="submit" class="fix_btn">Створити Тему</button>
+                      </form>
+                  </section>
+                  <p class="subtitle_s">вагаєтеся чи створювати тему? чи є запитання? звертайтеся до нашого :</p>
+                  <p class="subtitle"><a href="https://docs.google.com/document/d/1D3_-t8Nhd7-MKiRnXctxgexI1nBVyEr6cAERzAXqoIg/edit?usp=sharing">Документу</a></p>
+              {% else %}
+                  <p>Для створення Теми необхідно <a href="{{ url_for('login') }}">увійти</a>.</p>
+              {% endif %}
+          </div>
+
+          <div class="card live-forums">
+              <h2>Теми - В етері</h2>
+              <p class="subtitle_s">Світи спілкування наживо чекають на вас!</p>
+              <ul>
+                  {% for forum_id, forum in forums if forum.is_live %}
+                  <li>
+                      <a href="{{ url_for('view_forum', forum_id=forum_id) }}">
+                          {{ forum['name'] }}
+                      </a>
+                  </li>
+                  {% endfor %}
+              </ul>
+          </div>
+      </div>
+
+      <section class="forum-list card">
+          <h2 class="red-title">Теми</h2>
+          <h3 class="subtitle_s">тут сотні тисяч маленьких світів які хочуть, щоб ви їх дослідили...</h3>
+          <ul>
+              {% for forum_id, forum in forums %}
+              <li class="post">
+                  <div class="post-content">
+                      <h3>{{ forum['name'] }}</h3>
+                      <h4 class="live">{% if forum.is_live %}/ В етері {% endif %}</h4>
+                      <h4 class="subtitle_s">підписники: {{ get_subscriber_count(forum_id) }}</h4>
+                      <h5 class="subtitle">Реп: {{ forum['reputation'] }}</h5>
+                      <p>{{ forum['description'[:50]] | safe }}</p>
+                      <div class="author">
+                            Автор:
+                      {% set author = users.get(forum['author_id']) %}
+                      {% if author %}
+                          <a href="{{ url_for('view_user_profile', uid=forum['author_id']) }}">
+                      {{ author['username'] }}
+                      </a>
+                      {% else %}
+                          ???
+                      {% endif %}
+                      </div>
+
+                      <a href="{{ url_for('view_forum', forum_id=forum_id) }}">🔍 Переглянути</a>
+                  </div>
+
+                  {% if show_menu == forum_id %}
+                  <div class="admin-menu">
+                      {% if session['user_id'] == forum['author_id'] or 'admin' in session.get('roles', []) %}
+                          <form action="{{ url_for('delete_forum', forum_id=forum_id) }}" method="POST" onsubmit="return confirm('Ви впевнені, що хочете видалити цю тему?')">
+                              <button type="submit" class="delete-btn">Видалити тему</button>
+                          </form>
+                          <form action="{{ url_for('edit_forum', forum_id=forum_id) }}" method="GET">
+                              <button type="submit">Редагувати</button>
+                          </form>
+                      {% endif %}
+                  </div>
+                  {% endif %}
+
+                  <div class="votes">
+                      <form action="{{ url_for('vote_forum', forum_id=forum_id) }}" method="POST">
+                          {% if session['user_id'] not in forum['votes'] %}
+                              <button type="submit" name="vote" value="up">⬆️</button>
+                              <span>{{ forum['vote_count'] }}</span>
+                              <button type="submit" name="vote" value="down">⬇️</button>
+                          {% else %}
+                              <button type="submit" name="vote" value="cancel">❌</button>
+                          {% endif %}
+                      </form>
+                  </div>
+                  
+                  {% if 'user_id' in session %}
+                      {% if session['user_id'] not in forum['subscribers'] %}
+                          <form action="{{ url_for('subscribe_forum', forum_id=forum_id) }}" method="POST">
+                              <button type="submit">Підписатися</button>
+                          </form>
+                      {% else %}
+                          <form action="{{ url_for('unsubscribe_forum', forum_id=forum_id) }}" method="POST">
+                              <button type="submit">Відписатися</button>
+                          </form>
+                      {% endif %}
+                      {% if session['user_id'] == forum['author_id'] %}
+                          <form action="{{ url_for('moderate_forum', forum_id=forum_id) }}" method="GET">
+                              <button type="submit">керувати</button>
+                          </form>
+                      {% endif %}
+                  {% else %}
+                      <p>Для підписки необхідно <a href="{{ url_for('login') }}">увійти</a>.</p>
+                  {% endif %}
+              </li>
+              {% endfor %}
+          </ul>
+      </section>
+  </main>
+
+  {% include "components/footer.jinja" %}
+
+  <script>
+  setInterval(() => {
+    fetch(location.href, { headers: { "X-Requested-With": "XMLHttpRequest" } })
+      .then(res => res.text())
+      .then(html => {
+        const parser = new DOMParser();
+        const doc = parser.parseFromString(html, "text/html");
+
+        const newList = doc.querySelector('.forum-list');
+        const oldList = document.querySelector('.forum-list');
+        if (newList && oldList) {
+          oldList.innerHTML = newList.innerHTML;
+        }
+
+        const newLiveSidebar = doc.querySelector('.live-forums ul');
+        const oldLiveSidebar = document.querySelector('.live-forums ul');
+        if (newLiveSidebar && oldLiveSidebar) {
+          oldLiveSidebar.innerHTML = newLiveSidebar.innerHTML;
+        }
+      })
+      .catch(err => console.error("Помилка оновлення:", err));
+  }, 30000); 
+  </script>
+</body>
+</html>
