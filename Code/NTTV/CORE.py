@@ -7,6 +7,8 @@ from flask import Flask, render_template, request, redirect, url_for, session , 
 from flask_socketio import SocketIO
 from werkzeug.security import generate_password_hash, check_password_hash
 
+from discord_auth import discord_auth
+
 #> python
 import time
 import requests
@@ -34,6 +36,8 @@ init(autoreset=True)
 app = Flask(__name__)
 app.secret_key =  os.environ.get("SECRET_KEY", os.urandom(24))
 app.permanent_session_lifetime = timedelta(hours=24)
+
+app.register_blueprint(discord_auth)
 
 # > Server options
 ip = "0.0.0.0"
@@ -701,3 +705,4 @@ def start():
 if __name__ == "__main__":
     start()
 # uncomment for local use
+

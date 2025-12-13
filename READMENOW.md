@@ -1,8 +1,8 @@
 для мене. В мене амнізія
 ```
-git checkout -b imp/design-pages
+git checkout -b imp/login
 
 git add .
-git commit -m "main page"
-git push origin imp/design-pages
+git commit -m "start && add discord_auth"
+git push origin imp/login
 ```
