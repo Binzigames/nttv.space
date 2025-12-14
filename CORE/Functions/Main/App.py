@@ -6,7 +6,13 @@ from CORE.Loaders.CoreLoader import *
 from CORE.Loaders.LibsLoader import *
 #---------------------------->Flask app to use
 init(autoreset=True)
-app = Flask(__name__)
+
+app = Flask(
+    __name__,
+    template_folder="../../Adittions/templates",
+    static_folder="../../Adittions/static",
+)
+
 #----------------------------> Flask application init
 def startup():
 
