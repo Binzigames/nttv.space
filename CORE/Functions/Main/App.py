@@ -9,8 +9,8 @@ init(autoreset=True)
 
 app = Flask(
     __name__,
-    template_folder="../../Adittions/templates",
-    static_folder="../../Adittions/static",
+    template_folder="../../web/templates",
+    static_folder="../../web/static",
 )
 
 #----------------------------> Flask application init

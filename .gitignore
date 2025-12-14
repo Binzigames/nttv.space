@@ -2,3 +2,6 @@ OLD/NTTV/DB/cfg.json
 OLD/NTTV/DB/shared_config.json
 OLD/NTTV/DB/str_db.py
 OLD/NTTV/DB/users.json
+
+
+__pycache__
